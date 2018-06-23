@@ -1,7 +1,7 @@
 
 {
-    "name": "Weather",
-    "short_name": "Weather",
+    "name": "Universal Interval Timer",
+    "short_name": "UIT",
     "icons": [{
       "src": "images/icons/icon-128x128.png",
         "sizes": "128x128",
