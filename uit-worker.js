@@ -2,7 +2,7 @@ var cacheName = 'UIT-Cache';
 var filesToCache = [
   '/',
   //'/index.html',
-  '/scripts/app.js',
+  //'/scripts/app.js',
   '/styles/inline.css',
   '/images/ic_add_white_24px.svg',
   '/images/ic_refresh_white_24px.svg'  

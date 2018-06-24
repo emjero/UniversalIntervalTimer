@@ -6,7 +6,7 @@
   <!--<link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Universal Interval Timer</title>
-  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+  <link rel="stylesheet" type="text/css" href="styles/mystyle.css">
 
 
   <!-- TODO add manifest here -->
@@ -23,45 +23,35 @@
 </head>
 <body>
   <header class="header">
-    <h1 class="header__title">Universal Interval Timer</h1>
-    <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
-    <button id="butAdd" class="headerButton" aria-label="Add"></button>
+    <h1 class="header__title">Universal Interval Timer</h1> 
   </header>
+  </br></br></br></br>
 
+<div id="divtest"></div>
+<div id="exerciceTitleDiv" class="titleDiv1"></div>
+</br>
 
-  <main class="main" id="main-container">
-      Hello
-  </main>
-    
-   
-  <div class="dialog-container">
-    <div class="dialog">
-      <div class="dialog-title">Add new city</div>
-      <div class="dialog-body">
-        <select id="selectCityToAdd">
-          <!-- Values map to Yahoo Weather API Where On Earth Identifiers (WOEIDs).
-               https://developer.yahoo.com/weather/documentation.html#req -->
-          <option value="2357536">Austin, TX</option>
-          <option value="2367105">Boston, MA</option>
-          <option value="2379574">Chicago, IL</option>
-          <option value="2459115">New York, NY</option>
-          <option value="2475687">Portland, OR</option>
-          <option value="2487956">San Francisco, CA</option>
-          <option value="2490383">Seattle, WA</option>
-        </select>
-      </div>
-      <div class="dialog-buttons">
-        <button id="butAddCity" class="button">Add</button>
-        <button id="butAddCancel" class="button">Cancel</button>
-      </div>
+<div id="roundsDisplayDiv" class="titleDiv1">    
+    Round <span class="currentRound"></span> of <span class="nbRounds"></span>    
+</div>
+</br>
+
+  <div id="timerDisplayDiv">    
+    <!--<div>  
+      <span class="hours"></span>
+      <div class="smalltext">Hours</div>
+    </div>-->
+    <div>  
+        <span class="minutes"></span>
+        <div class="smalltext">Minutes</div>
     </div>
+    <div>  
+        <span class="seconds"></span>
+        <div class="smalltext">Seconds</div>
+      </div>
   </div>
-
-  <div class="loader">
-    <svg viewBox="0 0 32 32" width="32" height="32">
-      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
-    </svg>
-  </div>
+    
+  
 
   <!-- Uncomment the line below when ready to test with fake data -->
   <script src="scripts/app.js" async></script>

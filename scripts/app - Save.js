@@ -41,7 +41,7 @@
         editionEnCours: false
   };
 
-
+document.getElementById("demo").innerHTML
 
   /*****************************************************************************
    *
