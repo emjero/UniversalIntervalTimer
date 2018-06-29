@@ -41,11 +41,13 @@
 
 
   //Initialisation des valeurs
-  document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
+  //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
+  document.getElementById('spanExerciceTitle').innerHTML = exercice1.nom;
 
-  var rounds = document.getElementById('roundsDisplayDiv')
-  var nbRoundsSpan = rounds.querySelector('.nbRounds');
-  nbRoundsSpan.innerHTML = exercice1.nbrounds;
+  var strRounds = "Round X of " + exercice1.nbrounds;
+  var rounds = document.getElementById('spanRoundsDisplay').innerHTML = strRounds;
+  //var nbRoundsSpan = rounds.querySelector('.nbRounds');
+  //nbRoundsSpan.innerHTML = exercice1.nbrounds;
 
   /*****************************************************************************
    *
@@ -82,8 +84,11 @@ function initializeTimer(id, endtime) {
   //Reference vers les spans
   //var daysSpan = timer.querySelector('.days');
   //var hoursSpan = timer.querySelector('.hours');
-  var minutesSpan = timer.querySelector('.minutes');
-  var secondsSpan = timer.querySelector('.seconds');
+  //var minutesSpan = timer.querySelector('.minutes');
+  //var secondsSpan = timer.querySelector('.seconds');
+
+  //var timerValueSpan = timer.querySelector('.spanTimerDisplay');
+  var timerValueSpan = document.getElementById('spanTimerDisplay');
 
   function updateTimer() {
     
@@ -93,8 +98,11 @@ function initializeTimer(id, endtime) {
 
     //daysSpan.innerHTML = t.days;
     //hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    
+    //minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
