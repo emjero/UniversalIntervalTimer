@@ -10,6 +10,22 @@
 
   //Timer management
   var timesToTick = 0;
+  
+  var timerState = [
+    "Stopped",
+    "Running",
+    "Paused"    
+  ];
+  var runPageStatus = timerState[0];
+
+  var btnActionLabel = [
+    "Start",
+    "Pause",
+    "Resume"    
+  ];
+  var btnActionCurrentLabel = btnActionLabel[0];
+  
+    
 
   var exercice1 = {
     id: "1",
@@ -109,6 +125,14 @@ function initializeTimer(id, endtime) {
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
+
+      runPageStatus = timerState[0];
+      btnActionCurrentLabel = btnActionLabel[0];
+
+      //To do: a mettre dans une fonction
+      document.getElementById('divtest').innerHTML = runPageStatus;
+      document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
+
     }
 
     //Le temps est exprimé en ms
@@ -121,10 +145,41 @@ function initializeTimer(id, endtime) {
 
 //var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
 
+/* Mangement of the page status
+timerState: 0 --> Stopped , 1 -> Running, 2 --> paused
+btnActionLabel: 0 --> Start , 1 -> Pause, 2 --> Resume
+*/
+function toggleRunPageState() {
 
-document.getElementById('divtest').innerHTML = timesToTick;
+  switch(runPageStatus) {
+    case timerState[0]: 
+      runPageStatus = timerState[1];
+      btnActionCurrentLabel = btnActionLabel[1];
+      initializeTimer('timerDisplayDiv', timesToTick);
+      break;
+
+    case timerState[1]: 
+      runPageStatus = timerState[2];
+      btnActionCurrentLabel = btnActionLabel[2];
+      break;
+
+    case timerState[2]: 
+      runPageStatus = timerState[1];
+      btnActionCurrentLabel = btnActionLabel[1];
+      break;    
+  }
+
+  document.getElementById('divtest').innerHTML = runPageStatus;
+  document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
+}
+
+//document.getElementById('divtest').innerHTML = timesToTick;
+document.getElementById('divtest').innerHTML = runPageStatus;
 timesToTick = getTotalExerciceTime() * 100;
 //initializeTimer('timerDisplayDiv', timesToTick);
+
+  
+
 
   /*****************************************************************************
    *
@@ -133,25 +188,11 @@ timesToTick = getTotalExerciceTime() * 100;
    ****************************************************************************/
 
   document.getElementById('btnActionTimer').addEventListener('click', function() {
-    initializeTimer('timerDisplayDiv', timesToTick);
+    toggleRunPageState(); 
+           
   });
 
-  //document.getElementById('butRefresh').addEventListener('click', function() {
-    // Refresh all of the forecasts
-    //app.updateForecasts();
-  //});
-
-  //document.getElementById('butAdd').addEventListener('click', function() {
-    // Open/show the add new city dialog
-    //app.toggleAddDialog(true);
-  //});
-
-  //document.getElementById('butAddCancel').addEventListener('click', function() {
-    // Close the add new city dialog
-    //app.toggleAddDialog(false);
-  //});
-
-
+ 
   /*****************************************************************************
    *
    * Methods to update/refresh the UI

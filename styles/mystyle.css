@@ -2,7 +2,7 @@
     background-color: #000000;
     padding: 20px;
     text-align: center;
-    color: #5700f8; 
+    color: #4682b4; 
     font-weight: 100;
     font-size: 40px;
 }
@@ -16,7 +16,7 @@ body{
 }
 
 h1{
-  color: #396;
+  color: #4682b4;
   font-weight: 100;
   font-size: 40px;
   margin: 40px 0px 20px;
@@ -49,7 +49,6 @@ span.titleStyle1{
     background: rgb(0, 0, 0);
     display: inline-block;
 }
-*/
 
 #timerDisplayDiv{
     font-family: sans-serif;
@@ -78,3 +77,6 @@ span.titleStyle1{
     padding-top: 5px;
     font-size: 16px;
 }
+
+*/
+
