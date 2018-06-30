@@ -1,6 +1,6 @@
 var cacheName = 'UIT-Cache';
 var filesToCache = [
-  '/',
+  //'/',
   //'/index.html',
   //'/scripts/app.js',
   //'/styles/mystyle.css',
