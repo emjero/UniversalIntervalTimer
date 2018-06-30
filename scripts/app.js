@@ -147,6 +147,15 @@ function updateTimer() {
 
 //var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
 
+function playBell(type){
+  if(type == 1)
+    document.getElementById("audioBoxingBell1").play();
+  else if(type == 3)
+    document.getElementById("audioBoxingBell3").play();
+  else
+    retrun;
+}
+
 /* Mangement of the page status
 timerState: 0 --> Stopped , 1 -> Running, 2 --> paused
 btnActionLabel: 0 --> Start , 1 -> Pause, 2 --> Resume
@@ -162,6 +171,7 @@ function toggleRunPageState() {
         runPageStatus = timerState[1];
         btnActionCurrentLabel = btnActionLabel[1];
         initializeTimer();
+        playBell(1);
       }
       break;
 
