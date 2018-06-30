@@ -9,6 +9,7 @@
   };
 
   //Timer management
+  var timeinterval;
   var timesToTick = 0;
   
   var timerState = [
@@ -97,50 +98,51 @@
     };
   }
 
-function initializeTimer(id, endtime) {
-  var timer = document.getElementById(id);
+function initializeTimer() {
+  //var timer = document.getElementById(id);
 
   //Reference vers les spans
   //var daysSpan = timer.querySelector('.days');
   //var hoursSpan = timer.querySelector('.hours');
   //var minutesSpan = timer.querySelector('.minutes');
   //var secondsSpan = timer.querySelector('.seconds');
+  if(timesToTick > 0){
+    updateTimer();
+    timeinterval = setInterval(updateTimer, 1000);
+  }
+  
+}
 
+function updateTimer() {
+    
+  //alert('timesToTick: ' + timesToTick);
+  var t = getFormattedTime(timesToTick);
+  //alert(('0' + t.seconds).slice(-2));
+
+  //daysSpan.innerHTML = t.days;
+  //hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+  
+  //minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+  //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
   //var timerValueSpan = timer.querySelector('.spanTimerDisplay');
   var timerValueSpan = document.getElementById('timerDisplaySpan');
 
-  function updateTimer() {
-    
-    //alert('timesToTick: ' + timesToTick);
-    var t = getFormattedTime(timesToTick);
-    //alert(('0' + t.seconds).slice(-2));
+  timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
 
-    //daysSpan.innerHTML = t.days;
-    //hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-    
-    //minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+  if (t.total <= 0) {
+    clearInterval(timeinterval);
 
-    timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    runPageStatus = timerState[0];
+    btnActionCurrentLabel = btnActionLabel[0];
 
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
+    //To do: a mettre dans une fonction
+    document.getElementById('divtest').innerHTML = runPageStatus;
+    document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
 
-      runPageStatus = timerState[0];
-      btnActionCurrentLabel = btnActionLabel[0];
-
-      //To do: a mettre dans une fonction
-      document.getElementById('divtest').innerHTML = runPageStatus;
-      document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
-
-    }
-
-    //Le temps est exprimé en ms
-    timesToTick = timesToTick - 1000;
   }
 
-  updateTimer();
-  var timeinterval = setInterval(updateTimer, 1000);
+  //Le temps est exprimé en ms
+  timesToTick = timesToTick - 1000;
 }
 
 //var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
@@ -152,20 +154,32 @@ btnActionLabel: 0 --> Start , 1 -> Pause, 2 --> Resume
 function toggleRunPageState() {
 
   switch(runPageStatus) {
+
+    //Stopped to Running
     case timerState[0]: 
-      runPageStatus = timerState[1];
-      btnActionCurrentLabel = btnActionLabel[1];
-      initializeTimer('timerDisplayDiv', timesToTick);
+
+      if(timesToTick > 0){
+        runPageStatus = timerState[1];
+        btnActionCurrentLabel = btnActionLabel[1];
+        initializeTimer();
+      }
       break;
 
+    //Running to Pause
     case timerState[1]: 
       runPageStatus = timerState[2];
       btnActionCurrentLabel = btnActionLabel[2];
+      //stop the timer
+      clearInterval(timeinterval);
+      
       break;
 
+    //Pause to Running
     case timerState[2]: 
       runPageStatus = timerState[1];
       btnActionCurrentLabel = btnActionLabel[1];
+      //Relaunch the timer
+      timeinterval = setInterval(updateTimer, 1000);
       break;    
   }
 
