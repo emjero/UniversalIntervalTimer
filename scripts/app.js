@@ -25,9 +25,17 @@
     "Resume"    
   ];
   var btnActionCurrentLabel = btnActionLabel[0];
-  
-    
 
+  var exerciceState = [
+    "None",
+    "WarmUp",
+    "Work",
+    "Rest"    
+  ];           
+  var currentRound = 0;
+        
+
+  //Data
   var exercice1 = {
     id: "1",
     nom: "7 min workout",
@@ -61,11 +69,13 @@
   //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
   document.getElementById('exerciceTitleSpan').innerHTML = exercice1.nom;
 
-  var strRounds = "Round X of " + exercice1.nbrounds;
+  var strRounds = "Round " + currentRound.toString() + " of " + exercice1.nbrounds;
   var rounds = document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
   //var nbRoundsSpan = rounds.querySelector('.nbRounds');
   //nbRoundsSpan.innerHTML = exercice1.nbrounds;
+  document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
 
+  /*******************************************************************************/
  
   
 
