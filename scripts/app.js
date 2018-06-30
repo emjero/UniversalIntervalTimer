@@ -108,111 +108,147 @@
     };
   }
 
-function initializeTimer() {
-  //var timer = document.getElementById(id);
+  function initializeTimer() {
+    //var timer = document.getElementById(id);
 
-  //Reference vers les spans
-  //var daysSpan = timer.querySelector('.days');
-  //var hoursSpan = timer.querySelector('.hours');
-  //var minutesSpan = timer.querySelector('.minutes');
-  //var secondsSpan = timer.querySelector('.seconds');
-  if(timesToTick > 0){
-    updateTimer();
-    timeinterval = setInterval(updateTimer, 1000);
-  }
-  
-}
-
-function updateTimer() {
+    //Reference vers les spans
+    //var daysSpan = timer.querySelector('.days');
+    //var hoursSpan = timer.querySelector('.hours');
+    //var minutesSpan = timer.querySelector('.minutes');
+    //var secondsSpan = timer.querySelector('.seconds');
+    if(timesToTick > 0){
+      updateTimer();
+      timeinterval = setInterval(updateTimer, 1000);
+    }
     
-  //alert('timesToTick: ' + timesToTick);
-  var t = getFormattedTime(timesToTick);
-  //alert(('0' + t.seconds).slice(-2));
-
-  //daysSpan.innerHTML = t.days;
-  //hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-  
-  //minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-  //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-  //var timerValueSpan = timer.querySelector('.spanTimerDisplay');
-  var timerValueSpan = document.getElementById('timerDisplaySpan');
-
-  timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
-
-  if (t.total <= 0) {
-    clearInterval(timeinterval);
-
-    runPageStatus = timerState[0];
-    btnActionCurrentLabel = btnActionLabel[0];
-
-    //To do: a mettre dans une fonction
-    document.getElementById('divtest').innerHTML = runPageStatus;
-    document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
-
   }
 
-  //Le temps est exprimé en ms
-  timesToTick = timesToTick - 1000;
-}
+  function updateTimer() {
+      
+    //alert('timesToTick: ' + timesToTick);
+    var t = getFormattedTime(timesToTick);
+    //alert(('0' + t.seconds).slice(-2));
 
-//var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
+    //daysSpan.innerHTML = t.days;
+    //hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    
+    //minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    //var timerValueSpan = timer.querySelector('.spanTimerDisplay');
+    var timerValueSpan = document.getElementById('timerDisplaySpan');
 
-function playBell(type){
-  if(type == 1)
-    document.getElementById("audioBoxingBell1").play();
-  else if(type == 3)
-    document.getElementById("audioBoxingBell3").play();
-  else
-    retrun;
-}
+    timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
 
-/* Mangement of the page status
-timerState: 0 --> Stopped , 1 -> Running, 2 --> paused
-btnActionLabel: 0 --> Start , 1 -> Pause, 2 --> Resume
-*/
-function toggleRunPageState() {
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+      checkExerciceState();
 
-  switch(runPageStatus) {
+      runPageStatus = timerState[0];
+      btnActionCurrentLabel = btnActionLabel[0];
 
-    //Stopped to Running
-    case timerState[0]: 
+      //To do: a mettre dans une fonction
+      document.getElementById('divtest').innerHTML = runPageStatus;
+      document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
 
-      if(timesToTick > 0){
+    }
+
+    //Le temps est exprimé en ms
+    timesToTick = timesToTick - 1000;
+  }
+
+  /*****************************************************************************
+     *
+     * Run page management
+     *
+     ****************************************************************************/
+  //var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
+
+
+ // Function that handles the behaviour of the run page
+  //"None",  "WarmUp",  "Work",  "Rest"
+  function checkExerciceState(){
+
+    if(currentRound <= parseInt(exercice1.nbrounds))
+    {
+      switch(exerciceState) {
+        case "WarmUp":
+  
+          break;
+  
+        //None to WarmUp
+        case "None":
+
+          break;
+      }
+    }    
+  }
+
+  function playBell(type){
+    if(type == 1)
+      document.getElementById("audioBoxingBell1").play();
+    else if(type == 3)
+      document.getElementById("audioBoxingBell3").play();
+    else
+      retrun;
+  }
+
+  /* Mangement of the page status
+  timerState: 0 --> Stopped , 1 -> Running, 2 --> paused
+  btnActionLabel: 0 --> Start , 1 -> Pause, 2 --> Resume
+  */
+  function toggleRunPageState() {
+
+    switch(runPageStatus) {
+
+      //Stopped to Running
+      case timerState[0]: 
+
+        if(timesToTick > 0){
+          runPageStatus = timerState[1];
+          btnActionCurrentLabel = btnActionLabel[1];
+          initializeTimer();
+          playBell(1);
+          changeTimerBackGroundColor("green");
+        }
+        break;
+
+      //Running to Pause
+      case timerState[1]: 
+        runPageStatus = timerState[2];
+        btnActionCurrentLabel = btnActionLabel[2];
+        //stop the timer
+        clearInterval(timeinterval);
+        
+        break;
+
+      //Pause to Running
+      case timerState[2]: 
         runPageStatus = timerState[1];
         btnActionCurrentLabel = btnActionLabel[1];
-        initializeTimer();
-        playBell(1);
-      }
-      break;
+        //Relaunch the timer
+        timeinterval = setInterval(updateTimer, 1000);
+        break;    
+    }
 
-    //Running to Pause
-    case timerState[1]: 
-      runPageStatus = timerState[2];
-      btnActionCurrentLabel = btnActionLabel[2];
-      //stop the timer
-      clearInterval(timeinterval);
-      
-      break;
-
-    //Pause to Running
-    case timerState[2]: 
-      runPageStatus = timerState[1];
-      btnActionCurrentLabel = btnActionLabel[1];
-      //Relaunch the timer
-      timeinterval = setInterval(updateTimer, 1000);
-      break;    
+    document.getElementById('divtest').innerHTML = runPageStatus;
+    document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
   }
 
-  document.getElementById('divtest').innerHTML = runPageStatus;
-  document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
-}
+  function changeTimerBackGroundColor(color){
+    var x = document.getElementsByClassName("timerSpanStyle1");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].style.backgroundColor = color;
+    }
+  }
+  
+ 
+
 
 //document.getElementById('divtest').innerHTML = timesToTick;
 document.getElementById('divtest').innerHTML = runPageStatus;
 timesToTick = getTotalExerciceTime() * 100;
-//initializeTimer('timerDisplayDiv', timesToTick);
-
-  
+//initializeTimer('timerDisplayDiv', timesToTick);  
 
 
   /*****************************************************************************
@@ -222,8 +258,7 @@ timesToTick = getTotalExerciceTime() * 100;
    ****************************************************************************/
 
   document.getElementById('btnActionTimer').addEventListener('click', function() {
-    toggleRunPageState(); 
-           
+    toggleRunPageState();            
   });
 
  
