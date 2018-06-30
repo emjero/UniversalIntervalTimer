@@ -32,6 +32,7 @@
     "Work",
     "Rest"    
   ];           
+  var currentExerciceState = exerciceState[0];
   var currentRound = 0;
         
 
@@ -68,16 +69,29 @@
   //Initialisation des valeurs
   //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
   document.getElementById('exerciceTitleSpan').innerHTML = exercice1.nom;
-
-  var strRounds = "Round " + currentRound.toString() + " of " + exercice1.nbrounds;
-  var rounds = document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
+  updateNbRoundsSpan();
+  
   //var nbRoundsSpan = rounds.querySelector('.nbRounds');
   //nbRoundsSpan.innerHTML = exercice1.nbrounds;
   document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
 
   /*******************************************************************************/
  
-  
+  function updateNbRoundsSpan(){
+    var strRounds = "Round " + currentRound.toString() + " of " + exercice1.nbrounds;
+    document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
+  }
+
+  function updateMvtsSpans(){
+    var mvts = getMvtFromRoundAndExerciseState();
+    document.getElementById('movementSpan').innerHTML = mvts;
+  }
+
+  function updateExerciseStateSpans(){
+    document.getElementById('divtest').innerHTML = runPageStatus;
+    document.getElementById('exerciceStateSpan').innerHTML = currentExerciceState;    
+    document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
+  }
 
   /*****************************************************************************
    *
@@ -141,15 +155,7 @@
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
-      checkExerciceState();
-
-      runPageStatus = timerState[0];
-      btnActionCurrentLabel = btnActionLabel[0];
-
-      //To do: a mettre dans une fonction
-      document.getElementById('divtest').innerHTML = runPageStatus;
-      document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
-
+      checkExerciceState();   
     }
 
     //Le temps est exprimé en ms
@@ -161,25 +167,137 @@
      * Run page management
      *
      ****************************************************************************/
-  //var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
+  
 
+  /** Return the name of the movement to be displayed according to the round number and Exercice state */
+  function getMvtFromRoundAndExerciseState(){
 
- // Function that handles the behaviour of the run page
+    var nbMovements = exercice1.movements.length;
+
+    if(currentExerciceState == exerciceState[0])
+      return "";
+  
+    if (nbMovements> 0 && currentRound > 0){
+      
+      var indexToReturn = 0;
+
+      if(currentRound < nbMovements){
+
+        //If we are in Work mode display the current move otherwise display the next one
+        if(currentExerciceState == exerciceState[2])
+          return exercice1.movements[currentRound - 1];
+        else
+          return "Next: " + exercice1.movements[currentRound];        
+      }
+      else if(currentRound == nbMovements){
+        //If we are in Work mode display the current move otherwise display the next one
+        if(currentExerciceState == exerciceState[2])
+          return exercice1.movements[currentRound - 1];
+        else{
+          indexToReturn = (currentRound) % nbMovements;
+          return "Next: " + exercice1.movements[indexToReturn];
+        }          
+      }
+      else{
+        if(currentExerciceState == exerciceState[2]){
+          indexToReturn = (currentRound - 1) % nbMovements;
+          return exercice1.movements[indexToReturn];
+        }          
+        else{
+          indexToReturn = (currentRound) % nbMovements;
+          return "Next: " + exercice1.movements[indexToReturn];
+        }  
+      }
+    }   
+  }
+
+  // Function that handles the behaviour of the run page
   //"None",  "WarmUp",  "Work",  "Rest"
   function checkExerciceState(){
 
     if(currentRound <= parseInt(exercice1.nbrounds))
     {
-      switch(exerciceState) {
-        case "WarmUp":
-  
-          break;
-  
+      switch(currentExerciceState) {
         //None to WarmUp
         case "None":
-
+          if(parseInt(exercice1.tpsEchauffement) > 0) {
+            //warmup  
+            currentExerciceState = exerciceState[1];
+            timesToTick = parseInt(exercice1.tpsEchauffement) * 1000;
+            initializeTimer();
+            playBell(1);
+            //changeTimerBackGroundColor("green");
+          }
+          
           break;
+        
+        //WarmUp to Work
+        case "WarmUp":
+          if(parseInt(exercice1.intervalTravail) > 0) {  
+            //Work
+            currentExerciceState = exerciceState[2];
+            currentRound++;
+            timesToTick = parseInt(exercice1.intervalTravail) * 1000;
+            initializeTimer();
+            playBell(1);
+            changeTimerBackGroundColor("green");
+            updateNbRoundsSpan();
+            updateMvtsSpans();
+          }
+          break; 
+
+        //Work to Rest
+        case "Work":
+          if(currentRound == parseInt(exercice1.nbrounds)){
+            //End of the exercise
+            runPageStatus = timerState[0];
+            btnActionCurrentLabel = btnActionLabel[0];  
+            currentExerciceState = exerciceState[0];                  
+            playBell(3);
+            changeTimerBackGroundColor("black");
+            updateMvtsSpans();
+          }
+          else {
+            if(parseInt(exercice1.intervalRepos) > 0) {
+              //Rest
+              currentExerciceState = exerciceState[3];
+              
+              timesToTick = parseInt(exercice1.intervalRepos) * 1000;
+              initializeTimer();
+              playBell(3);
+              changeTimerBackGroundColor("red");
+              updateMvtsSpans();
+            }
+
+          }   
+          break; 
+          
+          //Rest to work
+          case "Rest":
+            if(parseInt(exercice1.intervalTravail) > 0) {
+              //Rest
+              currentExerciceState = exerciceState[2];
+              currentRound++;
+              timesToTick = parseInt(exercice1.intervalTravail) * 1000;
+              initializeTimer();
+              playBell(1);
+              changeTimerBackGroundColor("green");
+              updateNbRoundsSpan();
+              updateMvtsSpans();
+            }
+              
+          break; 
+
       }
+
+      //runPageStatus = timerState[0];
+      //btnActionCurrentLabel = btnActionLabel[0];
+
+      //To do: a mettre dans une fonction
+      //document.getElementById('divtest').innerHTML = runPageStatus;
+      //document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
+      //document.getElementById('exerciceStateSpan').innerHTML = currentExerciceState;
+      updateExerciseStateSpans();
     }    
   }
 
@@ -203,13 +321,17 @@
       //Stopped to Running
       case timerState[0]: 
 
-        if(timesToTick > 0){
-          runPageStatus = timerState[1];
-          btnActionCurrentLabel = btnActionLabel[1];
-          initializeTimer();
-          playBell(1);
-          changeTimerBackGroundColor("green");
-        }
+        //if(timesToTick > 0){
+        currentRound = 0;
+        currentExerciceState = exerciceState[0];
+        runPageStatus = timerState[1];
+        btnActionCurrentLabel = btnActionLabel[1];
+        updateNbRoundsSpan();
+        checkExerciceState();
+        //initializeTimer();
+        //playBell(1);
+        //changeTimerBackGroundColor("green");
+        //}
         break;
 
       //Running to Pause
@@ -230,8 +352,7 @@
         break;    
     }
 
-    document.getElementById('divtest').innerHTML = runPageStatus;
-    document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
+    updateExerciseStateSpans();
   }
 
   function changeTimerBackGroundColor(color){
@@ -242,13 +363,11 @@
     }
   }
   
- 
 
-
-//document.getElementById('divtest').innerHTML = timesToTick;
-document.getElementById('divtest').innerHTML = runPageStatus;
-timesToTick = getTotalExerciceTime() * 100;
-//initializeTimer('timerDisplayDiv', timesToTick);  
+  //document.getElementById('divtest').innerHTML = timesToTick;
+  document.getElementById('divtest').innerHTML = runPageStatus;
+  //timesToTick = getTotalExerciceTime() * 100;
+  //initializeTimer('timerDisplayDiv', timesToTick);  
 
 
   /*****************************************************************************
