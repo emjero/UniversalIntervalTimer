@@ -42,12 +42,15 @@
 
   //Initialisation des valeurs
   //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
-  document.getElementById('spanExerciceTitle').innerHTML = exercice1.nom;
+  document.getElementById('exerciceTitleSpan').innerHTML = exercice1.nom;
 
   var strRounds = "Round X of " + exercice1.nbrounds;
-  var rounds = document.getElementById('spanRoundsDisplay').innerHTML = strRounds;
+  var rounds = document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
   //var nbRoundsSpan = rounds.querySelector('.nbRounds');
   //nbRoundsSpan.innerHTML = exercice1.nbrounds;
+
+ 
+  
 
   /*****************************************************************************
    *
@@ -88,7 +91,7 @@ function initializeTimer(id, endtime) {
   //var secondsSpan = timer.querySelector('.seconds');
 
   //var timerValueSpan = timer.querySelector('.spanTimerDisplay');
-  var timerValueSpan = document.getElementById('spanTimerDisplay');
+  var timerValueSpan = document.getElementById('timerDisplaySpan');
 
   function updateTimer() {
     
@@ -121,16 +124,17 @@ function initializeTimer(id, endtime) {
 
 document.getElementById('divtest').innerHTML = timesToTick;
 timesToTick = getTotalExerciceTime() * 100;
-initializeTimer('timerDisplayDiv', timesToTick);
-
-
-
+//initializeTimer('timerDisplayDiv', timesToTick);
 
   /*****************************************************************************
    *
    * Event listeners for UI elements
    *
    ****************************************************************************/
+
+  document.getElementById('btnActionTimer').addEventListener('click', function() {
+    initializeTimer('timerDisplayDiv', timesToTick);
+  });
 
   //document.getElementById('butRefresh').addEventListener('click', function() {
     // Refresh all of the forecasts

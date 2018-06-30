@@ -30,25 +30,36 @@
   <div id="divtest"></div>
 
   <div>
-    <span id="spanExerciceTitle" class="titleStyle1"></span>
+    <span id="exerciceTitleSpan" class="titleStyle1"></span>
   </div>
 
   </br>
 
   <div>
-      <span id="spanRoundsDisplay" class="titleStyle1"></span>
+      <span id="roundsDisplaySpan" class="titleStyle1"></span>
   </div>
+  <br/>
+  <div>
+    <span id="timerDisplaySpan" class="titleStyle1"></span>    
+  </div>
+  <br/>
+  <div id="timerStatusDiv">
+    <span id="timerStatusSpan" class="titleStyle1">Elapsed time</span>
+  </div>
+  <br/>
+  <button id="btnActionTimer">Start</button>
+
+    
+ 
+  <script src="scripts/app.js" async></script>
 
 
-  </br>
-
-  <div id="timerDisplayDiv">    
-    <!--<div>  
+    <!--
+       id="timerDisplayDiv"
+      <div>  
       <span class="hours"></span>
       <div class="smalltext">Hours</div>
     </div>-->
-    <span id="spanTimerDisplay" class="titleStyle1"></span>
-    
     <!--
     <div>  
         <span class="minutes"></span>
@@ -59,12 +70,6 @@
         <div class="smalltext">Seconds</div>
     </div>
     -->
-  </div>
-    
-  
-
-  <!-- Uncomment the line below when ready to test with fake data -->
-  <script src="scripts/app.js" async></script>
 
 </body>
 </html>
