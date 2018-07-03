@@ -11,6 +11,7 @@
   //Timer management
   var timeinterval;
   var timesToTick = 0;
+  var timesTicked = 0;
   
   var timerState = [
     "Stopped",
@@ -75,6 +76,14 @@
   //nbRoundsSpan.innerHTML = exercice1.nbrounds;
   document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
 
+  var t = getFormattedTime(getTotalExerciceTime());
+  document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+  
+  //set progressbar max value
+  document.getElementById("progressBar").max = getTotalExerciceTime();
+
+  //document.getElementById('divtest').innerHTML = runPageStatus;
+
   /*******************************************************************************/
  
   function updateNbRoundsSpan(){
@@ -88,9 +97,24 @@
   }
 
   function updateExerciseStateSpans(){
-    document.getElementById('divtest').innerHTML = runPageStatus;
+    //document.getElementById('divtest').innerHTML = runPageStatus;
     document.getElementById('exerciceStateSpan').innerHTML = currentExerciceState;    
     document.getElementById('btnActionTimer').innerHTML = btnActionCurrentLabel;
+  }
+
+  function updateTimerSpans(t){
+    var timerValueSpan = document.getElementById('timerDisplaySpan');
+    timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    //alert(getElapsedTime());
+
+    var elapsedt = getElapsedTime();
+    document.getElementById('elapsedTimeSpan').innerHTML = "Elapsed: " + ('0' + elapsedt.minutes).slice(-2) + ':' + ('0' + elapsedt.seconds).slice(-2);
+    
+    var remainingt = getRemainingTime();
+    document.getElementById('remainingTimeSpan').innerHTML = "Remaining: " + ('0' + remainingt.minutes).slice(-2) + ':' + ('0' + remainingt.seconds).slice(-2);
+
+    //Update progressbar
+    document.getElementById("progressBar").value = timesTicked;
   }
 
   /*****************************************************************************
@@ -99,9 +123,27 @@
    *
    ****************************************************************************/
 
-  function getTotalExerciceTime(){
-    return parseInt(exercice1.nbrounds) * parseInt(exercice1.intervalTravail);
+  //Return total exercice time in Msec
+   function getTotalExerciceTime(){
+    var totalExerciceSec = 0;
+    
+    if (exercice1.nbrounds == 0 || exercice1.intervalTravail == 0)
+        totalExerciceSec = exercice1.tpsEchauffement;
+    else
+        totalExerciceSec = parseInt(exercice1.tpsEchauffement) + parseInt(exercice1.nbrounds) * (parseInt(exercice1.intervalTravail) + parseInt(exercice1.intervalRepos)) - parseInt(exercice1.intervalRepos);
+
+    return totalExerciceSec * 1000;
+    //return parseInt(exercice1.nbrounds) * parseInt(exercice1.intervalTravail);
   };
+
+  function getElapsedTime(){
+    //alert(timesTicked);
+    return getFormattedTime(timesTicked);
+  }
+
+  function getRemainingTime(){
+    return getFormattedTime(getTotalExerciceTime() - timesTicked);
+  }
 
   function getFormattedTime(timeInMs) {
     
@@ -149,9 +191,7 @@
     //minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
     //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
     //var timerValueSpan = timer.querySelector('.spanTimerDisplay');
-    var timerValueSpan = document.getElementById('timerDisplaySpan');
-
-    timerValueSpan.innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    updateTimerSpans(t);    
 
     if (t.total <= 0) {
       clearInterval(timeinterval);
@@ -160,6 +200,7 @@
 
     //Le temps est exprimé en ms
     timesToTick = timesToTick - 1000;
+    timesTicked = timesTicked + 1000;
   }
 
   /*****************************************************************************
@@ -224,6 +265,7 @@
             //warmup  
             currentExerciceState = exerciceState[1];
             timesToTick = parseInt(exercice1.tpsEchauffement) * 1000;
+            timesTicked = 0;
             initializeTimer();
             playBell(1);
             //changeTimerBackGroundColor("green");
@@ -365,7 +407,7 @@
   
 
   //document.getElementById('divtest').innerHTML = timesToTick;
-  document.getElementById('divtest').innerHTML = runPageStatus;
+  
   //timesToTick = getTotalExerciceTime() * 100;
   //initializeTimer('timerDisplayDiv', timesToTick);  
 

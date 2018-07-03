@@ -30,7 +30,7 @@ span.titleStyle1{
     font-weight: 100;
     text-align: center;
     font-size: 20px;
-    width: 250px;
+    width: 300px;
 }
 
 span.timerSpanStyle1{
@@ -41,8 +41,14 @@ span.timerSpanStyle1{
     font-weight: 100;
     text-align: center;
     font-size: 20px;
-    width: 250px;
+    width: 300px;
     height: 50px;
+    
+}
+
+.progressStyle{    
+    width: 300px;
+    height: 10px;
 }
 
 /*
