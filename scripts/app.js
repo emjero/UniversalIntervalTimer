@@ -94,7 +94,7 @@ function loadExercices(){
           //return myObj;
       }
   };
-  //specify false for synchronous load
+  //specify false for synchronous load --> a revoir car call synchrone plus supporté
   xmlhttp.open("GET", "./assets/listeExercices.json", false);
   xmlhttp.send();
     
