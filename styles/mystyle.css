@@ -51,6 +51,11 @@ span.timerSpanStyle1{
     height: 10px;
 }
 
+.selectStyle{    
+    width: 300px;
+    height: 20px;
+}
+
 /*
 #exerciceTitleDiv > div{
     padding: 10px;

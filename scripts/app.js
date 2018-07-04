@@ -36,9 +36,10 @@
   var currentExerciceState = exerciceState[0];
   var currentRound = 0;
         
-
+  
   //Data
-  var exercice1 = {
+  var objExercices;
+  /*var selectedExercice = {
     id: "1",
     nom: "7 min workout",
     nbrounds: "12",
@@ -65,11 +66,50 @@
         isSaved: false,
         editionEnCours: false
   };
+  */
+//Load exercices from file in JSON format
+function loadExercices(){
+  var xmlhttp = new XMLHttpRequest();
+  
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myObj = JSON.parse(this.responseText);
+          //document.getElementById("divtest").innerHTML = myObj.exercices[1].nom;
+          
+          //selectedExercice = myObj.exercices[0];
+          //alert(selectedExercice.nom);
+          objExercices = myObj;
 
+          var i;
+          var selectExercicesList = document.getElementById("lstExercices");
+          
+          for(i = 0; i < myObj.exercices.length; i++) {
+              
+              var option = document.createElement("option");
+              option.value = myObj.exercices[i].id;
+              option.text = myObj.exercices[i].nom;
+              selectExercicesList.appendChild(option);
+          }
+          //alert(myObj);
+          //return myObj;
+      }
+  };
+  //specify false for synchronous load
+  xmlhttp.open("GET", "../assets/listeExercices.json", false);
+  xmlhttp.send();
+    
+}
 
   //Initialisation des valeurs
+  loadExercices();
+  
+  //by default select the first exercice
+  var selectedExercice = objExercices.exercices[0];
+  //alert(objExercices.exercices.length);
+  //var selectedExercice = objExercices[0];
+
   //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
-  document.getElementById('exerciceTitleSpan').innerHTML = exercice1.nom;
+  document.getElementById('exerciceTitleSpan').innerHTML = selectedExercice.nom;
   updateNbRoundsSpan();
   
   //var nbRoundsSpan = rounds.querySelector('.nbRounds');
@@ -84,10 +124,14 @@
 
   //document.getElementById('divtest').innerHTML = runPageStatus;
 
+
+
+
+
   /*******************************************************************************/
  
   function updateNbRoundsSpan(){
-    var strRounds = "Round " + currentRound.toString() + " of " + exercice1.nbrounds;
+    var strRounds = "Round " + currentRound.toString() + " of " + selectedExercice.nbrounds;
     document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
   }
 
@@ -127,10 +171,10 @@
    function getTotalExerciceTime(){
     var totalExerciceSec = 0;
     
-    if (exercice1.nbrounds == 0 || exercice1.intervalTravail == 0)
-        totalExerciceSec = exercice1.tpsEchauffement;
+    if (selectedExercice.nbrounds == 0 || selectedExercice.intervalTravail == 0)
+        totalExerciceSec = selectedExercice.tpsEchauffement;
     else
-        totalExerciceSec = parseInt(exercice1.tpsEchauffement) + parseInt(exercice1.nbrounds) * (parseInt(exercice1.intervalTravail) + parseInt(exercice1.intervalRepos)) - parseInt(exercice1.intervalRepos);
+        totalExerciceSec = parseInt(selectedExercice.tpsEchauffement) + parseInt(selectedExercice.nbrounds) * (parseInt(selectedExercice.intervalTravail) + parseInt(selectedExercice.intervalRepos)) - parseInt(selectedExercice.intervalRepos);
 
     return totalExerciceSec * 1000;
     //return parseInt(exercice1.nbrounds) * parseInt(exercice1.intervalTravail);
@@ -213,7 +257,7 @@
   /** Return the name of the movement to be displayed according to the round number and Exercice state */
   function getMvtFromRoundAndExerciseState(){
 
-    var nbMovements = exercice1.movements.length;
+    var nbMovements = selectedExercice.movements.length;
 
     if(currentExerciceState == exerciceState[0])
       return "";
@@ -226,27 +270,27 @@
 
         //If we are in Work mode display the current move otherwise display the next one
         if(currentExerciceState == exerciceState[2])
-          return exercice1.movements[currentRound - 1];
+          return selectedExercice.movements[currentRound - 1];
         else
-          return "Next: " + exercice1.movements[currentRound];        
+          return "Next: " + selectedExercice.movements[currentRound];        
       }
       else if(currentRound == nbMovements){
         //If we are in Work mode display the current move otherwise display the next one
         if(currentExerciceState == exerciceState[2])
-          return exercice1.movements[currentRound - 1];
+          return selectedExercice.movements[currentRound - 1];
         else{
           indexToReturn = (currentRound) % nbMovements;
-          return "Next: " + exercice1.movements[indexToReturn];
+          return "Next: " + selectedExercice.movements[indexToReturn];
         }          
       }
       else{
         if(currentExerciceState == exerciceState[2]){
           indexToReturn = (currentRound - 1) % nbMovements;
-          return exercice1.movements[indexToReturn];
+          return selectedExercice.movements[indexToReturn];
         }          
         else{
           indexToReturn = (currentRound) % nbMovements;
-          return "Next: " + exercice1.movements[indexToReturn];
+          return "Next: " + selectedExercice.movements[indexToReturn];
         }  
       }
     }   
@@ -256,15 +300,15 @@
   //"None",  "WarmUp",  "Work",  "Rest"
   function checkExerciceState(){
 
-    if(currentRound <= parseInt(exercice1.nbrounds))
+    if(currentRound <= parseInt(selectedExercice.nbrounds))
     {
       switch(currentExerciceState) {
         //None to WarmUp
         case "None":
-          if(parseInt(exercice1.tpsEchauffement) > 0) {
+          if(parseInt(selectedExercice.tpsEchauffement) > 0) {
             //warmup  
             currentExerciceState = exerciceState[1];
-            timesToTick = parseInt(exercice1.tpsEchauffement) * 1000;
+            timesToTick = parseInt(selectedExercice.tpsEchauffement) * 1000;
             timesTicked = 0;
             initializeTimer();
             playBell(1);
@@ -275,11 +319,11 @@
         
         //WarmUp to Work
         case "WarmUp":
-          if(parseInt(exercice1.intervalTravail) > 0) {  
+          if(parseInt(selectedExercice.intervalTravail) > 0) {  
             //Work
             currentExerciceState = exerciceState[2];
             currentRound++;
-            timesToTick = parseInt(exercice1.intervalTravail) * 1000;
+            timesToTick = parseInt(selectedExercice.intervalTravail) * 1000;
             initializeTimer();
             playBell(1);
             changeTimerBackGroundColor("green");
@@ -290,7 +334,7 @@
 
         //Work to Rest
         case "Work":
-          if(currentRound == parseInt(exercice1.nbrounds)){
+          if(currentRound == parseInt(selectedExercice.nbrounds)){
             //End of the exercise
             runPageStatus = timerState[0];
             btnActionCurrentLabel = btnActionLabel[0];  
@@ -300,11 +344,11 @@
             updateMvtsSpans();
           }
           else {
-            if(parseInt(exercice1.intervalRepos) > 0) {
+            if(parseInt(selectedExercice.intervalRepos) > 0) {
               //Rest
               currentExerciceState = exerciceState[3];
               
-              timesToTick = parseInt(exercice1.intervalRepos) * 1000;
+              timesToTick = parseInt(selectedExercice.intervalRepos) * 1000;
               initializeTimer();
               playBell(3);
               changeTimerBackGroundColor("red");
@@ -316,11 +360,11 @@
           
           //Rest to work
           case "Rest":
-            if(parseInt(exercice1.intervalTravail) > 0) {
+            if(parseInt(selectedExercice.intervalTravail) > 0) {
               //Rest
               currentExerciceState = exerciceState[2];
               currentRound++;
-              timesToTick = parseInt(exercice1.intervalTravail) * 1000;
+              timesToTick = parseInt(selectedExercice.intervalTravail) * 1000;
               initializeTimer();
               playBell(1);
               changeTimerBackGroundColor("green");

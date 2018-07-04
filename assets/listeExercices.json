@@ -1,8 +1,36 @@
-{
-    "Exercices": [{
-        "id": "1",
-        "nom": "7 min workout",
-        "nbrounds": "image/png",
+{    "exercices": [
+        {
+            "id": "1",
+            "nom": "7 min workout2",
+            "nbrounds": "12",
+            "tpsEchauffement": "5",
+            "intervalTravail": "30",
+            "intervalRepos": "15",
+            "movements": [
+                "Jumping Jacks",
+                "Wall Sit",
+                "Push-up",
+                "Abdominal Crunch",
+                "Abdominal Crunch",
+                "Step Up Onto Chair",
+                "Squat",
+                "Triceps Dip on Chair",
+                "Front Plank",
+                "High Knees",
+                "Lunge",
+                "Push-Up and Rotation",
+                "Side Plank Left/Right"
+            ],
+            "isDeleted": "False",
+            "isSelected": "False",
+            "isModified": "False",
+            "isSaved": "False",
+            "editionEnCours": "False"     
+    },
+    {
+        "id": "2",
+        "nom": "Test2",
+        "nbrounds": "12",
         "tpsEchauffement": "5",
         "intervalTravail": "30",
         "intervalRepos": "15",
@@ -25,7 +53,7 @@
         "isSelected": "False",
         "isModified": "False",
         "isSaved": "False",
-        "editionEnCours": "False"     
-  }]
-
+        "editionEnCours": "False"    
+    }
+]
 }
