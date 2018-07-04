@@ -95,7 +95,7 @@ function loadExercices(){
       }
   };
   //specify false for synchronous load
-  xmlhttp.open("GET", "../assets/listeExercices.json", false);
+  xmlhttp.open("GET", "./assets/listeExercices.json", false);
   xmlhttp.send();
     
 }
