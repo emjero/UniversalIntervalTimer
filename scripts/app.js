@@ -28,7 +28,7 @@
   var btnActionCurrentLabel = btnActionLabel[0];
 
   var exerciceState = [
-    "None",
+    "Ready",
     "WarmUp",
     "Work",
     "Rest"    
@@ -115,6 +115,8 @@ function loadExercices(){
   //var nbRoundsSpan = rounds.querySelector('.nbRounds');
   //nbRoundsSpan.innerHTML = exercice1.nbrounds;
   document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
+  //document.getElementById('timerDisplaySpan').innerHTML = "...";
+  //document.getElementById('movementSpan').innerHTML = "...";
 
   var t = getFormattedTime(getTotalExerciceTime());
   document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
@@ -297,14 +299,14 @@ function loadExercices(){
   }
 
   // Function that handles the behaviour of the run page
-  //"None",  "WarmUp",  "Work",  "Rest"
+  //"Ready",  "WarmUp",  "Work",  "Rest"
   function checkExerciceState(){
 
     if(currentRound <= parseInt(selectedExercice.nbrounds))
     {
       switch(currentExerciceState) {
-        //None to WarmUp
-        case "None":
+        //Ready to WarmUp
+        case "Ready":
           if(parseInt(selectedExercice.tpsEchauffement) > 0) {
             //warmup  
             currentExerciceState = exerciceState[1];

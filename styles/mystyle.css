@@ -4,7 +4,7 @@
     text-align: center;
     color: #4682b4; 
     font-weight: 80;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 
@@ -27,9 +27,9 @@ span.titleStyle1{
     color: #fff;
     background: rgb(0, 0, 0);
     display: inline-block;
-    font-weight: 100;
+    
     text-align: center;
-    font-size: 20px;
+    font-size: 30px;
     width: 300px;
 }
 
@@ -38,17 +38,23 @@ span.timerSpanStyle1{
     color: #fff;
     background: rgb(0, 0, 0);
     display: inline-block;
-    font-weight: 100;
+ 
     text-align: center;
-    font-size: 20px;
-    width: 300px;
-    height: 50px;
-    
+    font-size: 35px;
+    width: 297px;
+    height: 50px;    
+}
+
+.timerDivStyle1{        
+    max-width: 297px;
+    margin: auto;
+    border: 3px solid black;
 }
 
 .progressStyle{    
-    width: 300px;
-    height: 10px;
+    width: 300px;    
+    border: 1px solid black;
+    display: inline-block;    
 }
 
 .selectStyle{    
@@ -56,50 +62,10 @@ span.timerSpanStyle1{
     height: 20px;
 }
 
-/*
-#exerciceTitleDiv > div{
-    padding: 10px;
-    border-radius: 3px;
-    background: rgb(0, 0, 0);
-    display: inline-block;
-    width: 250px;
+.btnStyle1{    
+    width: 300px;
+    color: #4682b4;    
+    font-size: 35px;
+    background: black;    
+    border: 1px solid black;
 }
-
-
-#exerciceTitleDiv div > span{
-    padding: 15px;
-    border-radius: 3px;
-    background: rgb(0, 0, 0);
-    display: inline-block;
-}
-
-#timerDisplayDiv{
-    font-family: sans-serif;
-    color: #fff;
-    display: inline-block;
-    font-weight: 100;
-    text-align: center;
-    font-size: 30px;
-}
-
-#timerDisplayDiv > div{
-    padding: 10px;
-    border-radius: 3px;
-    background: #00BF96;
-    display: inline-block;
-}
-
-#timerDisplayDiv div > span{
-    padding: 15px;
-    border-radius: 3px;
-    background: #00816A;
-    display: inline-block;
-}
-
-.smalltext{
-    padding-top: 5px;
-    font-size: 16px;
-}
-
-*/
-
