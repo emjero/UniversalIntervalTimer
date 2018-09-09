@@ -28,24 +28,14 @@
     },
     {
         "id": "2",
-        "nom": "Test2",
-        "nbrounds": "12",
+        "nom": "Corde et abdos",
+        "nbrounds": "5",
         "tpsEchauffement": "5",
         "intervalTravail": "30",
         "intervalRepos": "10",
         "movements": [
-            "Jumping Jacks",
-            "Wall Sit",
-            "Push-up",
-            "Abdominal Crunch",
-            "Step Up Onto Chair",
-            "Squat",
-            "Triceps Dip on Chair",
-            "Front Plank",
-            "High Knees",
-            "Lunge",
-            "Push-Up and Rotation",
-            "Side Plank Left/Right"
+            "Corde",
+            "Abdos"
         ],
         "isDeleted": "False",
         "isSelected": "False",

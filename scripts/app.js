@@ -105,33 +105,36 @@ function loadExercices(){
   
   //by default select the first exercice
   var selectedExercice = objExercices.exercices[0];
+
+  updatePageElements();
+
   //alert(objExercices.exercices.length);
   //var selectedExercice = objExercices[0];
-
-  //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
-  document.getElementById('exerciceTitleSpan').innerHTML = selectedExercice.nom;
-  updateNbRoundsSpan();
   
-  //var nbRoundsSpan = rounds.querySelector('.nbRounds');
-  //nbRoundsSpan.innerHTML = exercice1.nbrounds;
-  document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
-  //document.getElementById('timerDisplaySpan').innerHTML = "...";
-  //document.getElementById('movementSpan').innerHTML = "...";
 
-  var t = getFormattedTime(getTotalExerciceTime());
-  document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
-  
-  //set progressbar max value
-  document.getElementById("progressBar").max = getTotalExerciceTime();
-
-  //document.getElementById('divtest').innerHTML = runPageStatus;
-
-
-
-
-
-  /*******************************************************************************/
+  /************* Main Page Update *********************************************************************/
  
+  function updatePageElements(){
+    //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
+    document.getElementById('exerciceTitleSpan').innerHTML = selectedExercice.nom;
+    updateNbRoundsSpan();
+    
+    //var nbRoundsSpan = rounds.querySelector('.nbRounds');
+    //nbRoundsSpan.innerHTML = exercice1.nbrounds;
+    document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
+    //document.getElementById('timerDisplaySpan').innerHTML = "...";
+    //document.getElementById('movementSpan').innerHTML = "...";
+
+    var t = getFormattedTime(getTotalExerciceTime());
+    document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    
+    //set progressbar max value
+    document.getElementById("progressBar").max = getTotalExerciceTime();
+
+    //document.getElementById('divtest').innerHTML = runPageStatus;
+  }
+  
+  
   function updateNbRoundsSpan(){
     var strRounds = "Round " + currentRound.toString() + " of " + selectedExercice.nbrounds;
     document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
@@ -250,10 +253,10 @@ function loadExercices(){
   }
 
   /*****************************************************************************
-     *
-     * Run page management
-     *
-     ****************************************************************************/
+   *
+   * Run page management
+   *
+   ****************************************************************************/
   
 
   /** Return the name of the movement to be displayed according to the round number and Exercice state */
@@ -452,11 +455,20 @@ function loadExercices(){
   }
   
 
-  //document.getElementById('divtest').innerHTML = timesToTick;
-  
-  //timesToTick = getTotalExerciceTime() * 100;
-  //initializeTimer('timerDisplayDiv', timesToTick);  
+  function lstExercicesChanged(){
+    var selectedExerciceIndex = document.getElementById("lstExercices").selectedIndex;
 
+    if(selectedExerciceIndex < objExercices.exercices.length)
+    {
+        //change the selected Exercice from the collection
+        selectedExercice = objExercices.exercices[selectedExerciceIndex];
+        //alert(selectedExercice.nom);
+        updatePageElements();
+    }
+    
+
+    //alert(selectedExerciceIndex);
+  }
 
   /*****************************************************************************
    *
@@ -467,6 +479,11 @@ function loadExercices(){
   document.getElementById('btnActionTimer').addEventListener('click', function() {
     toggleRunPageState();            
   });
+
+  document.getElementById('lstExercices').addEventListener('change', function() {
+    lstExercicesChanged();            
+  });
+  
 
  
   /*****************************************************************************
