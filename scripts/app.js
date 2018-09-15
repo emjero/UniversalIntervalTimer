@@ -3,9 +3,9 @@
 
   var app = {
     isLoading: true,
-    spinner: document.querySelector('.loader'),
-    container: document.querySelector('.main'),
-    addDialog: document.querySelector('.dialog-container')
+    //spinner: document.querySelector('.loader'),
+    //container: document.querySelector('.main'),
+    //addDialog: document.querySelector('.dialog-container')
   };
 
   //Timer management
@@ -38,10 +38,11 @@
         
   
   //Data
-  var objExercices;
-  /*var selectedExercice = {
+  var exercisesArray = [];
+  var selectedExercise;
+  var defaultExercise = {
     id: "1",
-    nom: "7 min workout",
+    nom: "7 min workout default",
     nbrounds: "12",
     tpsEchauffement: "5",
     intervalTravail: "30",
@@ -66,7 +67,25 @@
         isSaved: false,
         editionEnCours: false
   };
-  */
+
+  var defaultExercise2 = {
+      id: "2",
+      nom: "Corde et abdos",
+      nbrounds: "5",
+      tpsEchauffement: "5",
+      intervalTravail: "30",
+      intervalRepos: "10",
+      movements: [
+          "Corde",
+          "Abdos"
+      ],
+      isDeleted: "False",
+      isSelected: "False",
+      isModified: "False",
+      isSaved: "False",
+      editionEnCours: "False"    
+  };
+  
 //Load exercices from file in JSON format
 function loadExercices(){
   var xmlhttp = new XMLHttpRequest();
@@ -76,9 +95,9 @@ function loadExercices(){
           var myObj = JSON.parse(this.responseText);
           //document.getElementById("divtest").innerHTML = myObj.exercices[1].nom;
           
-          //selectedExercice = myObj.exercices[0];
-          //alert(selectedExercice.nom);
-          objExercices = myObj;
+          //selectedExercise = myObj.exercices[0];
+          //alert(selectedExercise.nom);
+          exercisesArray = myObj;
 
           var i;
           var selectExercicesList = document.getElementById("lstExercices");
@@ -100,23 +119,67 @@ function loadExercices(){
     
 }
 
+  //Open the datastore and refresh exercises when done
+  uitDB.open(refreshExercises);
+
   //Initialisation des valeurs
-  loadExercices();
+  //loadExercices();
+  //uitDB.createExercise(defaultExercise, );
   
   //by default select the first exercice
-  var selectedExercice = objExercices.exercices[0];
-
-  updatePageElements();
+  //var selectedExercise = objExercices.exercices[0];
+ 
+  
+  //updatePageElements();
 
   //alert(objExercices.exercices.length);
-  //var selectedExercice = objExercices[0];
+  //var selectedExercise = objExercices[0];
   
 
   /************* Main Page Update *********************************************************************/
  
+  function refreshExercises(){
+    uitDB.fetchExercises(function(exercises) {
+
+      //if there are no exercises in the DB, polpulate it with default one
+      if(exercises.length == 0){
+        uitDB.createExercise(defaultExercise, refreshExercises);        
+      }
+      else {        
+        //by default select the first exercise
+        selectedExercise = exercises[0];
+
+        //just a test
+        if(exercises.length == 1){
+          uitDB.createExercise(defaultExercise2, refreshExercises);        
+        }
+        
+        //Update the select list to display the excercises and store the exercises in exercisesArray
+        var i;
+        var selectExercicesList = document.getElementById("lstExercices");
+        
+        for(i = 0; i < exercises.length; i++) {
+            
+            var option = document.createElement("option");
+            option.value = exercises[i].id;
+            option.text = exercises[i].nom;
+            selectExercicesList.appendChild(option);
+
+            //copy to exercisesArray
+            exercisesArray.push(exercises[i]);
+
+        }
+      }
+
+      updatePageElements();
+    }
+    
+    )
+  }
+
   function updatePageElements(){
     //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
-    document.getElementById('exerciceTitleSpan').innerHTML = selectedExercice.nom;
+    document.getElementById('exerciceTitleSpan').innerHTML = selectedExercise.nom;
     updateNbRoundsSpan();
     
     //var nbRoundsSpan = rounds.querySelector('.nbRounds');
@@ -136,7 +199,7 @@ function loadExercices(){
   
   
   function updateNbRoundsSpan(){
-    var strRounds = "Round " + currentRound.toString() + " of " + selectedExercice.nbrounds;
+    var strRounds = "Round " + currentRound.toString() + " of " + selectedExercise.nbrounds;
     document.getElementById('roundsDisplaySpan').innerHTML = strRounds;
   }
 
@@ -176,10 +239,10 @@ function loadExercices(){
    function getTotalExerciceTime(){
     var totalExerciceSec = 0;
     
-    if (selectedExercice.nbrounds == 0 || selectedExercice.intervalTravail == 0)
-        totalExerciceSec = selectedExercice.tpsEchauffement;
+    if (selectedExercise.nbrounds == 0 || selectedExercise.intervalTravail == 0)
+        totalExerciceSec = selectedExercise.tpsEchauffement;
     else
-        totalExerciceSec = parseInt(selectedExercice.tpsEchauffement) + parseInt(selectedExercice.nbrounds) * (parseInt(selectedExercice.intervalTravail) + parseInt(selectedExercice.intervalRepos)) - parseInt(selectedExercice.intervalRepos);
+        totalExerciceSec = parseInt(selectedExercise.tpsEchauffement) + parseInt(selectedExercise.nbrounds) * (parseInt(selectedExercise.intervalTravail) + parseInt(selectedExercise.intervalRepos)) - parseInt(selectedExercise.intervalRepos);
 
     return totalExerciceSec * 1000;
     //return parseInt(exercice1.nbrounds) * parseInt(exercice1.intervalTravail);
@@ -262,7 +325,7 @@ function loadExercices(){
   /** Return the name of the movement to be displayed according to the round number and Exercice state */
   function getMvtFromRoundAndExerciseState(){
 
-    var nbMovements = selectedExercice.movements.length;
+    var nbMovements = selectedExercise.movements.length;
 
     if(currentExerciceState == exerciceState[0])
       return "";
@@ -275,27 +338,27 @@ function loadExercices(){
 
         //If we are in Work mode display the current move otherwise display the next one
         if(currentExerciceState == exerciceState[2])
-          return selectedExercice.movements[currentRound - 1];
+          return selectedExercise.movements[currentRound - 1];
         else
-          return "Next: " + selectedExercice.movements[currentRound];        
+          return "Next: " + selectedExercise.movements[currentRound];        
       }
       else if(currentRound == nbMovements){
         //If we are in Work mode display the current move otherwise display the next one
         if(currentExerciceState == exerciceState[2])
-          return selectedExercice.movements[currentRound - 1];
+          return selectedExercise.movements[currentRound - 1];
         else{
           indexToReturn = (currentRound) % nbMovements;
-          return "Next: " + selectedExercice.movements[indexToReturn];
+          return "Next: " + selectedExercise.movements[indexToReturn];
         }          
       }
       else{
         if(currentExerciceState == exerciceState[2]){
           indexToReturn = (currentRound - 1) % nbMovements;
-          return selectedExercice.movements[indexToReturn];
+          return selectedExercise.movements[indexToReturn];
         }          
         else{
           indexToReturn = (currentRound) % nbMovements;
-          return "Next: " + selectedExercice.movements[indexToReturn];
+          return "Next: " + selectedExercise.movements[indexToReturn];
         }  
       }
     }   
@@ -305,15 +368,15 @@ function loadExercices(){
   //"Ready",  "WarmUp",  "Work",  "Rest"
   function checkExerciceState(){
 
-    if(currentRound <= parseInt(selectedExercice.nbrounds))
+    if(currentRound <= parseInt(selectedExercise.nbrounds))
     {
       switch(currentExerciceState) {
         //Ready to WarmUp
         case "Ready":
-          if(parseInt(selectedExercice.tpsEchauffement) > 0) {
+          if(parseInt(selectedExercise.tpsEchauffement) > 0) {
             //warmup  
             currentExerciceState = exerciceState[1];
-            timesToTick = parseInt(selectedExercice.tpsEchauffement) * 1000;
+            timesToTick = parseInt(selectedExercise.tpsEchauffement) * 1000;
             timesTicked = 0;
             initializeTimer();
             playBell(1);
@@ -324,11 +387,11 @@ function loadExercices(){
         
         //WarmUp to Work
         case "WarmUp":
-          if(parseInt(selectedExercice.intervalTravail) > 0) {  
+          if(parseInt(selectedExercise.intervalTravail) > 0) {  
             //Work
             currentExerciceState = exerciceState[2];
             currentRound++;
-            timesToTick = parseInt(selectedExercice.intervalTravail) * 1000;
+            timesToTick = parseInt(selectedExercise.intervalTravail) * 1000;
             initializeTimer();
             playBell(1);
             changeTimerBackGroundColor("green");
@@ -339,7 +402,7 @@ function loadExercices(){
 
         //Work to Rest
         case "Work":
-          if(currentRound == parseInt(selectedExercice.nbrounds)){
+          if(currentRound == parseInt(selectedExercise.nbrounds)){
             //End of the exercise
             runPageStatus = timerState[0];
             btnActionCurrentLabel = btnActionLabel[0];  
@@ -349,11 +412,11 @@ function loadExercices(){
             updateMvtsSpans();
           }
           else {
-            if(parseInt(selectedExercice.intervalRepos) > 0) {
+            if(parseInt(selectedExercise.intervalRepos) > 0) {
               //Rest
               currentExerciceState = exerciceState[3];
               
-              timesToTick = parseInt(selectedExercice.intervalRepos) * 1000;
+              timesToTick = parseInt(selectedExercise.intervalRepos) * 1000;
               initializeTimer();
               playBell(3);
               changeTimerBackGroundColor("red");
@@ -365,11 +428,11 @@ function loadExercices(){
           
           //Rest to work
           case "Rest":
-            if(parseInt(selectedExercice.intervalTravail) > 0) {
+            if(parseInt(selectedExercise.intervalTravail) > 0) {
               //Rest
               currentExerciceState = exerciceState[2];
               currentRound++;
-              timesToTick = parseInt(selectedExercice.intervalTravail) * 1000;
+              timesToTick = parseInt(selectedExercise.intervalTravail) * 1000;
               initializeTimer();
               playBell(1);
               changeTimerBackGroundColor("green");
@@ -456,18 +519,19 @@ function loadExercices(){
   
 
   function lstExercicesChanged(){
-    var selectedExerciceIndex = document.getElementById("lstExercices").selectedIndex;
+    var selectedExerciseIndex = document.getElementById("lstExercices").selectedIndex;
 
-    if(selectedExerciceIndex < objExercices.exercices.length)
+    //if(selectedExerciseIndex < objExercices.exercices.length)
+    if(selectedExerciseIndex < exercisesArray.length)
     {
         //change the selected Exercice from the collection
-        selectedExercice = objExercices.exercices[selectedExerciceIndex];
-        //alert(selectedExercice.nom);
+        selectedExercise = exercisesArray[selectedExerciseIndex];
+        //alert(selectedExercise.nom);
         updatePageElements();
     }
     
 
-    //alert(selectedExerciceIndex);
+    //alert(selectedExerciseIndex);
   }
 
   /*****************************************************************************
