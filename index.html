@@ -33,22 +33,23 @@
 <body>
   <div class="header">
     Universal Interval Timer
+    <button id="butAdd" class="headerButton" aria-label="Add"></button>
   </div>
-  </br></br>
+ 
+  <br/><br/>
+  <div id="divtest" class="timerDivStyle0"></div>
 
-  <div id="divtest"></div>
-
-  <div>
+  <div class="timerDivStyle0">
     <select id="lstExercices" class="selectStyle"></select> 
   </div>
-  <br/>
-  <div>
+
+  
+  
+  <div class="timerDivStyle0">
     <span id="exerciceTitleSpan" class="titleStyle1"></span>
   </div>
-
-  </br>
-
-  <div>
+ 
+  <div class="timerDivStyle0">
       <span id="roundsDisplaySpan" class="titleStyle1"></span>
   </div>
   <br/>
@@ -58,13 +59,16 @@
     <span id="movementSpan" class="timerSpanStyle1">...</span>
   </div>
   <br/>
-  <div>
+  <div class="timerDivStyle0">
     <span id="elapsedTimeSpan" class="titleStyle1">Elapsed: 00:00</span><br/>
     <progress id="progressBar" max="100" value="00" class="progressStyle"></progress><br/>
     <span id="remainingTimeSpan" class="titleStyle1">Remaining: 00:00</span><br/>
   </div>
   <br/>
-  <button id="btnActionTimer" class="btnStyle1">Start</button>
+  <div class="timerDivStyle0">
+    <button id="btnActionTimer" class="btnStyle1">Start</button>
+  </div>
+  
 
     
   <script src="scripts/db.js" async></script>
