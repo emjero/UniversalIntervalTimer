@@ -5,7 +5,7 @@
     isLoading: true,
     //spinner: document.querySelector('.loader'),
     //container: document.querySelector('.main'),
-    //addDialog: document.querySelector('.dialog-container')
+    addDialog: document.querySelector('.dialog-container')
   };
 
   //Timer management
@@ -121,6 +121,9 @@ function loadExercices(){
 
   //Open the datastore and refresh exercises when done
   uitDB.open(refreshExercises);
+
+  //Hide add dialog
+  app.addDialog.setAttribute('hidden', true);
 
   //Initialisation des valeurs
   //loadExercices();
@@ -548,7 +551,21 @@ function loadExercices(){
     lstExercicesChanged();            
   });
   
+  document.getElementById('butAdd').addEventListener('click', function() {
+    // Open/show the add new city dialog
+    app.toggleAddDialog(true);
+  });
 
+  document.getElementById('butAddExercise').addEventListener('click', function() {
+    //alert('test add');
+    app.toggleAddDialog(false);
+  });
+
+  document.getElementById('butAddCancel').addEventListener('click', function() {
+    // Close the add new dialog
+    //alert('test cancel');
+    app.toggleAddDialog(false);
+  });
  
   /*****************************************************************************
    *
@@ -556,12 +573,17 @@ function loadExercices(){
    *
    ****************************************************************************/
 
+
   // Toggles the visibility of the add new city dialog.
   app.toggleAddDialog = function(visible) {
     if (visible) {
-      app.addDialog.classList.add('dialog-container--visible');
+      //app.addDialog.classList.add('dialog-container--visible');
+      //alert('visible to invisible');
+      app.addDialog.removeAttribute('hidden');   
     } else {
-      app.addDialog.classList.remove('dialog-container--visible');
+      //app.addDialog.classList.remove('dialog-container--visible');
+      //alert('invisible to visible');
+      app.addDialog.setAttribute('hidden', true);
     }
   };
 

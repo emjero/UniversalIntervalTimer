@@ -4,8 +4,8 @@ var filesToCache = [
   //'/index.html',
   //'/scripts/app.js',
   //'/styles/mystyle.css',
-  '/images/ic_add_white_24px.svg',
-  '/images/ic_refresh_white_24px.svg',
+  //'/images/ic_add_white_24px.svg',
+  //'/images/ic_refresh_white_24px.svg',
   '/assets/BoxingBell1.wav',
   '/assets/BoxingBell3.wav'
 ];

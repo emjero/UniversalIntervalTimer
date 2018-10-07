@@ -99,9 +99,9 @@ body {
     outline: none;
     cursor: pointer; }
     .header #butRefresh {
-        background: url(/images/ic_refresh_white_24px.svg) center center no-repeat; }
+        background: url(../images/ic_refresh_white_24px.svg) center center no-repeat; }
     .header #butAdd {
-        background: url(/images/ic_add_white_24px.svg) center center no-repeat; }
+        background: url(../images/ic_add_white_24px.svg) center center no-repeat; }
 
 
 /*body{
@@ -173,5 +173,45 @@ span.timerSpanStyle1{
     font-size: 35px;
     background: black;    
     border: 1px solid black;
-      
 }
+
+
+.dialog-container--visible {
+opacity: 1;
+pointer-events: auto; }
+
+.dialog {
+    background: #FFF;
+    border-radius: 2px;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.24), 0 14px 28px rgba(0, 0, 0, 0.48);
+    min-width: 280px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) translateY(30px);
+        transform: translate(-50%, -50%) translateY(30px);
+    -webkit-transition: -webkit-transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
+    transition: -webkit-transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
+    transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
+    transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s, -webkit-transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s; }
+
+.dialog > div {
+    padding-left: 24px;
+    padding-right: 24px; }
+
+.dialog-title {
+    padding-top: 20px;
+    font-size: 1.25em; }
+
+.dialog-body {
+    padding-top: 20px;
+    padding-bottom: 24px; }
+.dialog-body select {
+    width: 100%;
+    font-size: 2em; }
+
+.dialog-buttons {
+    padding: 8px !important;
+    float: right; }
+
+
