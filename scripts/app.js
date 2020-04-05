@@ -39,7 +39,7 @@
   
   //Data
   var exercisesArray = [];
-  var selectedExercise;
+  var selectedExercise = null;
   var defaultExercise = {
     id: 1,
     nom: "7 min workout default",
@@ -150,8 +150,9 @@ function loadExercices(){
       }
       else {        
         //by default select the first exercise
-        selectedExercise = exercises[0];
-
+        if(selectedExercise == null)
+          selectedExercise = exercises[0];
+          
         //just a test
         //if(exercises.length == 1){
         //  uitDB.createExercise(defaultExercise2, refreshExercises);        
@@ -312,7 +313,7 @@ function loadExercices(){
           editionEnCours: false
     };
     
-    
+    /*
     alert(
       "Id: " + newExercise.id.toString() + "\n" + 
       "Nom: " + newExercise.nom.toString() + "\n" + 
@@ -322,11 +323,12 @@ function loadExercices(){
       "intervalRepos: " + newExercise.intervalRepos.toString() + "\n" +
       "movements: " + newExercise.movements.toString() 
       );
+      */
       
       //Add the new exercise to the DB
       //copy to exercisesArray
       //exercisesArray.push(newExercise);
-
+      
       uitDB.createExercise(newExercise, refreshExercises);
       //updatePageElements();
       return true;
@@ -662,7 +664,11 @@ function loadExercices(){
 
     //if exercise creation is sucessfull, close the add screen
     if (AddExercise())
+    {
       app.toggleAddDialog(false);
+      location.reload();
+    }
+      
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
