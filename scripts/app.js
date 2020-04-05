@@ -232,6 +232,99 @@ function loadExercices(){
     document.getElementById("progressBar").value = timesTicked;
   }
 
+  function isInt(value) {
+    var x;
+    if (isNaN(value)) {
+      return false;
+    }
+    x = parseFloat(value);
+    return (x | 0) === x;
+  }
+
+  function AddExercise(){
+    //alert(exercisesArray.length);
+    //alert(document.getElementById("inpExerciseName").value);
+    
+    //Create the exercise ID equals to the length of exercises already in the array
+    var id = exercisesArray.length;
+
+    
+    var nom = document.getElementById("inpExerciseName").value;
+    if(nom == "")    
+    {
+      alert("Exercise name can't be blank");
+      return false;
+    }    
+    
+    var nbrounds = document.getElementById("inpNbRounds").value;
+    if(!isInt(nbrounds))
+    {
+      alert("Number of rounds should be a number");
+      return false;
+    }      
+    
+    var tpsEchauffement = document.getElementById("inpWarmUp").value;
+    if(!isInt(tpsEchauffement))
+    {
+      alert("Warm up time should be a number");
+      return false;
+    } 
+
+    var intervalTravail = document.getElementById("inpWorkTime").value;
+    if(!isInt(intervalTravail))
+    {
+      alert("Warm up time should be a number");
+      return false;
+    } 
+    
+    var intervalRepos = document.getElementById("inpRestTime").value;
+    if(!isInt(intervalRepos))
+    {
+      alert("Warm up time should be a number");
+      return false;
+    }
+    
+    
+    var res = document.getElementById("inpMovmentList").value.trim();
+    //alert(res);
+    //alert(res[0].value.toString());
+    //alert(res[1].value.toString());
+    //for(var i = 0; i < exercises.length; i++) {
+
+    var movements = res.replace(/\n/g, ",");
+    alert(movements.toString());
+
+    
+    var newExercise = {
+      id: id,
+      nom: nom,
+      nbrounds: nbrounds,
+      tpsEchauffement: tpsEchauffement,
+      intervalTravail: intervalTravail,
+      intervalRepos: intervalRepos,
+      movements: movements,
+          isDeleted: false,
+          isSelected: false,
+          isModified: false,
+          isSaved: false,
+          editionEnCours: false
+    };
+    
+    
+    alert(
+      "Id: " + newExercise.id.toString() + "\n" + 
+      "Nom: " + newExercise.nom.toString() + "\n" + 
+      "NbRounds: " + newExercise.nbrounds.toString() + "\n" +
+      "tpsEchauffement: " + newExercise.tpsEchauffement.toString() + "\n" +
+      "intervalTravail: " + newExercise.intervalTravail.toString() + "\n" + 
+      "intervalRepos: " + newExercise.intervalRepos.toString() + "\n" +
+      "movements: " + newExercise.movements.toString() 
+      );
+      
+
+      return true;
+  }
+
   /*****************************************************************************
    *
    * Timer management
@@ -537,6 +630,7 @@ function loadExercices(){
     //alert(selectedExerciseIndex);
   }
 
+  
   /*****************************************************************************
    *
    * Event listeners for UI elements
@@ -558,7 +652,10 @@ function loadExercices(){
 
   document.getElementById('butAddExercise').addEventListener('click', function() {
     //alert('test add');
-    app.toggleAddDialog(false);
+
+    //if exercise creation is sucessfull, close the add screen
+    if (AddExercise())
+      app.toggleAddDialog(false);
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
