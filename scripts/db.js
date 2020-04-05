@@ -64,6 +64,9 @@ var uitDB = (function() {
       callback(exercises);
     };
 
+    //The cursorRequest.onsuccess event handler is triggered for each item that is returned from the database. 
+    //if the result contains an exercise item and then if it does  add that item to the exercises array. 
+    //The result.continue() method is then called which will move the cursor on to the next item in the database.
     cursorRequest.onsuccess = function(e) {
       var result = e.target.result;
       
@@ -94,15 +97,6 @@ var uitDB = (function() {
     // Get the datastore.
     var objStore = transaction.objectStore('uitexercise');
 
-    // Create a timestamp for the todo item.
-    var timestamp = new Date().getTime();
-    
-    // Create an object for the todo item.
-    /*var todo = {
-      'text': text,
-      'timestamp': timestamp
-    };*/
-
     // Create the datastore request.
     var request = objStore.put(exercise);
 
@@ -115,8 +109,6 @@ var uitDB = (function() {
     // Handle errors.
     request.onerror = tDB.onerror;
   };
-
-
 
 
 

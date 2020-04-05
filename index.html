@@ -69,27 +69,29 @@
     <button id="btnActionTimer" class="btnStyle1">Start</button>
   </div>
   
-
-    
+   
   <script src="scripts/db.js" async></script>
   <script src="scripts/app.js" async></script>
-
-
   
   <div class="dialog-container">
     <div class="dialog">
       <div class="dialog-title">Edit/Create Exercise</div>
       <div class="dialog-body">
-        <select id="selectCityToAdd">
-         
-          <option value="2357536">Austin, TX</option>
-          <option value="2367105">Boston, MA</option>
-          <option value="2379574">Chicago, IL</option>
-          <option value="2459115">New York, NY</option>
-          <option value="2475687">Portland, OR</option>
-          <option value="2487956">San Francisco, CA</option>
-          <option value="2490383">Seattle, WA</option>
-        </select>
+
+       
+        <label for="inpExerciseName">Exercise name:</label>
+        <input type="text" id="inpExerciseName" name="inpExerciseName"><br><br>
+        <label for="inpNbRounds">Number of rounds:</label>
+        <input type="text" id="inpNbRounds" name="inpNbRounds"><br><br>
+        <label for="inpWarmUp">Warm Up time (sec):</label>
+        <input type="text" id="inpWarmUp" name="inpWarmUp"><br><br>
+        <label for="inpWorkTime">Work time (sec):</label>
+        <input type="text" id="inpWorkTime" name="inpWorkTime"><br><br>
+        <label for="inpRestTime">Rest time (sec):</label>
+        <input type="text" id="inpRestTime" name="inpRestTime"><br><br>
+        <label for="inpMovmentList" style="vertical-align: top;">Movement list (separe with ;):</label>
+        <textarea id="inpMovmentList" rows="20"  cols="20"></textarea><br><br>      
+
       </div>
       <div class="dialog-buttons">
         <button id="butAddExercise" class="button">Add</button>

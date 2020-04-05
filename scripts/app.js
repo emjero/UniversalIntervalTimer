@@ -566,7 +566,8 @@ function loadExercices(){
     //alert('test cancel');
     app.toggleAddDialog(false);
   });
- 
+
+   
   /*****************************************************************************
    *
    * Methods to update/refresh the UI
@@ -574,7 +575,7 @@ function loadExercices(){
    ****************************************************************************/
 
 
-  // Toggles the visibility of the add new city dialog.
+  // Toggles the visibility 
   app.toggleAddDialog = function(visible) {
     if (visible) {
       //app.addDialog.classList.add('dialog-container--visible');
