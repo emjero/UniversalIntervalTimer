@@ -41,7 +41,7 @@
   var exercisesArray = [];
   var selectedExercise;
   var defaultExercise = {
-    id: "1",
+    id: 1,
     nom: "7 min workout default",
     nbrounds: "12",
     tpsEchauffement: "5",
@@ -69,7 +69,7 @@
   };
 
   var defaultExercise2 = {
-      id: "2",
+      id: 2,
       nom: "Corde et abdos",
       nbrounds: "5",
       tpsEchauffement: "5",
@@ -153,13 +153,19 @@ function loadExercices(){
         selectedExercise = exercises[0];
 
         //just a test
-        if(exercises.length == 1){
-          uitDB.createExercise(defaultExercise2, refreshExercises);        
-        }
+        //if(exercises.length == 1){
+        //  uitDB.createExercise(defaultExercise2, refreshExercises);        
+        //}
         
         //Update the select list to display the excercises and store the exercises in exercisesArray
         var i;
         var selectExercicesList = document.getElementById("lstExercices");
+
+        //clear values, if any
+        var length = selectExercicesList.options.length;
+        for (i = length-1; i >= 0; i--) {
+          select.options[i] = null;
+        }
         
         for(i = 0; i < exercises.length; i++) {
             
@@ -246,8 +252,7 @@ function loadExercices(){
     //alert(document.getElementById("inpExerciseName").value);
     
     //Create the exercise ID equals to the length of exercises already in the array
-    var id = exercisesArray.length;
-
+    var id = exercisesArray.length + 1;
     
     var nom = document.getElementById("inpExerciseName").value;
     if(nom == "")    
@@ -286,13 +291,10 @@ function loadExercices(){
     
     
     var res = document.getElementById("inpMovmentList").value.trim();
-    //alert(res);
-    //alert(res[0].value.toString());
-    //alert(res[1].value.toString());
-    //for(var i = 0; i < exercises.length; i++) {
-
-    var movements = res.replace(/\n/g, ",");
-    alert(movements.toString());
+    
+    //var movements = res.replace(/\n/g, ",");
+    var movements = res.replace(/\n/g, "\n").split("\n");
+    //alert(movements.toString());
 
     
     var newExercise = {
@@ -321,7 +323,12 @@ function loadExercices(){
       "movements: " + newExercise.movements.toString() 
       );
       
+      //Add the new exercise to the DB
+      //copy to exercisesArray
+      //exercisesArray.push(newExercise);
 
+      uitDB.createExercise(newExercise, refreshExercises);
+      //updatePageElements();
       return true;
   }
 
