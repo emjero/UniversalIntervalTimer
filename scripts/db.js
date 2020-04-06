@@ -110,6 +110,28 @@ var uitDB = (function() {
     request.onerror = tDB.onerror;
   };
 
+  /**
+   * Delete an exercise.
+   * @param {int} id The timestamp (id) of the exercise to be deleted.
+   * @param {function} callback A callback function that will be executed if the 
+   *                            delete is successful.
+   */
+  tDB.deleteExercise = function(id, callback) {
+    var db = datastore;
+    var transaction = db.transaction(['uitexercise'], 'readwrite');
+    var objStore = transaction.objectStore('uitexercise');
+    
+    var request = objStore.delete(id);
+    
+    request.onsuccess = function(e) {
+      callback();
+    }
+    
+    request.onerror = function(e) {
+      console.log(e);
+    }
+  };
+
 
 
     // Export the tDB object.

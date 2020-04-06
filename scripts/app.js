@@ -35,13 +35,14 @@
   ];           
   var currentExerciceState = exerciceState[0];
   var currentRound = 0;
+  var isEditInProgress = false;
         
   
   //Data
   var exercisesArray = [];
   var selectedExercise = null;
   var defaultExercise = {
-    id: 1,
+    id: 0,
     nom: "7 min workout default",
     nbrounds: "12",
     tpsEchauffement: "5",
@@ -69,7 +70,7 @@
   };
 
   var defaultExercise2 = {
-      id: 2,
+      id: 1,
       nom: "Corde et abdos",
       nbrounds: "5",
       tpsEchauffement: "5",
@@ -163,10 +164,10 @@ function loadExercices(){
         var selectExercicesList = document.getElementById("lstExercices");
 
         //clear values, if any
-        var length = selectExercicesList.options.length;
+        /*var length = selectExercicesList.options.length;
         for (i = length-1; i >= 0; i--) {
-          select.options[i] = null;
-        }
+          selectExercicesList.options[i] = null;
+        }*/
         
         for(i = 0; i < exercises.length; i++) {
             
@@ -199,7 +200,8 @@ function loadExercices(){
     //document.getElementById('movementSpan').innerHTML = "...";
 
     var t = getFormattedTime(getTotalExerciceTime());
-    document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    //document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    document.getElementById('remainingTimeSpan').innerHTML = "Remaining: " +  ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
     
     //set progressbar max value
     document.getElementById("progressBar").max = getTotalExerciceTime();
@@ -248,46 +250,74 @@ function loadExercices(){
     return (x | 0) === x;
   }
 
-  function AddExercise(){
-    //alert(exercisesArray.length);
-    //alert(document.getElementById("inpExerciseName").value);
+  function DisplayExerciseDetails(){
+    var selectedExerciseIndex = document.getElementById("lstExercices").selectedIndex;
+
+    //if(selectedExerciseIndex < objExercices.exercices.length)
+    if(selectedExerciseIndex < exercisesArray.length)
+    {
+        
+        selectedExercise = exercisesArray[selectedExerciseIndex];
+        
+        //Load Exercise details
+        document.getElementById("inpExerciseName").value = selectedExercise.nom;
+        document.getElementById("inpNbRounds").value = selectedExercise.nbrounds;
+        document.getElementById("inpWarmUp").value = selectedExercise.tpsEchauffement;
+        document.getElementById("inpWorkTime").value = selectedExercise.intervalTravail;
+        document.getElementById("inpRestTime").value = selectedExercise.intervalRepos;
+
+        document.getElementById("inpMovmentList").value = "";
+        for(var i = 0; i <= selectedExercise.movements.length - 1; i++){
+          document.getElementById("inpMovmentList").value = document.getElementById("inpMovmentList").value + selectedExercise.movements[i] + "\n";
+        }
+
+    }
+  }
+
+  
+
+  function ValidateExercise(id){
     
-    //Create the exercise ID equals to the length of exercises already in the array
-    var id = exercisesArray.length + 1;
+    //if function is called without paramter --> it is a new exercise and a new ID has to be generated
+    if(id == null)
+    {
+      //Create the exercise ID equals to the length of exercises already in the array
+      id = exercisesArray.length;
+    }    
     
     var nom = document.getElementById("inpExerciseName").value;
     if(nom == "")    
     {
       alert("Exercise name can't be blank");
-      return false;
+      return null;
     }    
     
     var nbrounds = document.getElementById("inpNbRounds").value;
     if(!isInt(nbrounds))
     {
       alert("Number of rounds should be a number");
-      return false;
+      return null;
     }      
     
     var tpsEchauffement = document.getElementById("inpWarmUp").value;
     if(!isInt(tpsEchauffement))
     {
       alert("Warm up time should be a number");
-      return false;
+      return null;
     } 
 
     var intervalTravail = document.getElementById("inpWorkTime").value;
     if(!isInt(intervalTravail))
     {
       alert("Warm up time should be a number");
-      return false;
+      return null;
     } 
     
     var intervalRepos = document.getElementById("inpRestTime").value;
     if(!isInt(intervalRepos))
     {
       alert("Warm up time should be a number");
-      return false;
+      return null;
     }
     
     
@@ -298,6 +328,47 @@ function loadExercices(){
     //alert(movements.toString());
 
     
+    return {
+      id: id,
+      nom: nom,
+      nbrounds: nbrounds,
+      tpsEchauffement: tpsEchauffement,
+      intervalTravail: intervalTravail,
+      intervalRepos: intervalRepos,
+      movements: movements,
+          isDeleted: false,
+          isSelected: false,
+          isModified: false,
+          isSaved: false,
+          editionEnCours: false
+    };
+  }
+
+  function SaveEditedExercice(){
+    var selectedExerciseIndex = document.getElementById("lstExercices").selectedIndex;
+
+    //if(selectedExerciseIndex < objExercices.exercices.length)
+    if(selectedExerciseIndex < exercisesArray.length)
+    {
+        
+      var editedExercise = ValidateExercise(selectedExerciseIndex);
+      //alert(editedExercise.id);
+        
+      if(editedExercise != null)
+      {
+        //to make the update delete the old exercise and recreate it with the updated values
+        uitDB.deleteExercise(editedExercise.id, refreshExercises);
+        uitDB.createExercise(editedExercise, refreshExercises);
+        //updatePageElements();
+        return true;
+      }
+      else
+        return false;
+    }
+  }
+
+  function AddExercise(){
+    /*    
     var newExercise = {
       id: id,
       nom: nom,
@@ -312,7 +383,9 @@ function loadExercices(){
           isSaved: false,
           editionEnCours: false
     };
-    
+    */
+
+        
     /*
     alert(
       "Id: " + newExercise.id.toString() + "\n" + 
@@ -328,10 +401,18 @@ function loadExercices(){
       //Add the new exercise to the DB
       //copy to exercisesArray
       //exercisesArray.push(newExercise);
+
+      var newExercise = ValidateExercise(null);
       
-      uitDB.createExercise(newExercise, refreshExercises);
-      //updatePageElements();
-      return true;
+      if(newExercise != null)
+      {
+        uitDB.createExercise(newExercise, refreshExercises);
+        //updatePageElements();
+        return true;
+      }
+      else
+         return false;
+      
   }
 
   /*****************************************************************************
@@ -655,25 +736,44 @@ function loadExercices(){
   });
   
   document.getElementById('butAdd').addEventListener('click', function() {
-    // Open/show the add new city dialog
+    // Open/show the add new exercise dialog
     app.toggleAddDialog(true);
   });
 
-  document.getElementById('butAddExercise').addEventListener('click', function() {
+  document.getElementById('linkEditExercise').addEventListener('click', function() {
+    isEditInProgress = true;
+    app.toggleAddDialog(true);
+    DisplayExerciseDetails();
+    //alert("Click!");
+  });
+  
+  document.getElementById('butAddEditExercise').addEventListener('click', function() {
     //alert('test add');
 
-    //if exercise creation is sucessfull, close the add screen
-    if (AddExercise())
+    if(isEditInProgress)
     {
+      SaveEditedExercice();
+      isEditInProgress = false;
       app.toggleAddDialog(false);
       location.reload();
     }
+    else
+    {
+      //if exercise creation is sucessfull, close the add screen
+      if (AddExercise())
+      {
+        app.toggleAddDialog(false);
+        location.reload();
+      }
+    }
+    
       
   });
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
     // Close the add new dialog
     //alert('test cancel');
+    isEditInProgress = false;
     app.toggleAddDialog(false);
   });
 
