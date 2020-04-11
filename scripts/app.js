@@ -836,9 +836,13 @@ function loadExercices(){
   });
 
   document.getElementById('linkDeleteDB').addEventListener('click', function() {
-    uitDB.deleteDatastore();
-    //app.toggleSettingsDialog(false);
-    //location.reload();
+    var strconfirm = confirm("Are you sure you want to delete?");
+    if (strconfirm == true) {
+      uitDB.deleteDatabase();
+      app.toggleSettingsDialog(false);
+      location.reload();
+    }      
+    
   });
 
    

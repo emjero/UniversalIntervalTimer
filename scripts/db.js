@@ -47,7 +47,7 @@ var uitDB = (function() {
     /**
      * Open a connection to the datastore.
      */
-    tDB.deleteDatastore = function(callback) {
+    tDB.deleteDatabase = function(callback) {
       //var db = datastore;
       //var transaction = db.transaction(['uitexercise'], 'readwrite');
       //var objStore = transaction.objectStore('uitexercise');
