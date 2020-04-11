@@ -153,7 +153,7 @@ function loadExercices(){
         //by default select the first exercise
         if(selectedExercise == null)
           selectedExercise = exercises[0];
-          
+        
         //just a test
         //if(exercises.length == 1){
         //  uitDB.createExercise(defaultExercise2, refreshExercises);        
@@ -188,11 +188,28 @@ function loadExercices(){
     )
   }
 
+  function initGlobalVariables(){
+    runPageStatus = timerState[0];
+    btnActionCurrentLabel = btnActionLabel[0];
+    currentExerciceState = exerciceState[0];
+    //currentRound = 0;
+    //timesTicked = 0;    
+    document.getElementById("progressBar").value = 0;
+    changeTimerBackGroundColor("black");
+    document.getElementById('timerDisplaySpan').innerHTML = "...";
+    //document.getElementById('movementSpan').innerHTML = "..."; 
+     
+    updateNbRoundsSpan();
+    updateExerciseStateSpans()
+    updateMvtsSpans();     
+    
+  }
+  
   function updatePageElements(){
     //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
     document.getElementById('exerciceTitleSpan').innerHTML = selectedExercise.nom;
     updateNbRoundsSpan();
-    
+    //alert("test2");
     //var nbRoundsSpan = rounds.querySelector('.nbRounds');
     //nbRoundsSpan.innerHTML = exercice1.nbrounds;
     document.getElementById('exerciceStateSpan').innerHTML = exerciceState[0];
@@ -200,12 +217,15 @@ function loadExercices(){
     //document.getElementById('movementSpan').innerHTML = "...";
 
     var t = getFormattedTime(getTotalExerciceTime());
-    //document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
+    //document.getElementById('divtest').innerHTML = ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);^
+    document.getElementById('elapsedTimeSpan').innerHTML = "Elapsed: " + ('00').slice(-2) + ':' + ('00').slice(-2);
     document.getElementById('remainingTimeSpan').innerHTML = "Remaining: " +  ('0' + t.minutes).slice(-2) + ':' + ('0' + t.seconds).slice(-2);
     
     //set progressbar max value
     document.getElementById("progressBar").max = getTotalExerciceTime();
-
+        
+    //changeTimerBackGroundColor("black");
+   
     //document.getElementById('divtest').innerHTML = runPageStatus;
   }
   
@@ -711,7 +731,15 @@ function loadExercices(){
     if(selectedExerciseIndex < exercisesArray.length)
     {
         //change the selected Exercice from the collection
-        selectedExercise = exercisesArray[selectedExerciseIndex];
+        initGlobalVariables();
+        selectedExercise = exercisesArray[selectedExerciseIndex];       
+       
+        //updateNbRoundsSpan();
+        
+        //var t = getFormattedTime(0);    
+        //updateTimerSpans(t); 
+        //updateExerciseStateSpans();
+    
         //alert(selectedExercise.nom);
         updatePageElements();
     }
