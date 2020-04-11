@@ -43,6 +43,30 @@ var uitDB = (function() {
         request.onerror = tDB.onerror;
     };
 
+
+    /**
+     * Open a connection to the datastore.
+     */
+    tDB.deleteDatastore = function(callback) {
+      //var db = datastore;
+      //var transaction = db.transaction(['uitexercise'], 'readwrite');
+      //var objStore = transaction.objectStore('uitexercise');
+      
+      
+      var DBDeleteRequest = window.indexedDB.deleteDatabase('uitexercises');
+
+      DBDeleteRequest.onerror = function(event) {
+        console.log("Error deleting database.");
+      };
+      
+      DBDeleteRequest.onsuccess = function(event) {
+        console.log("Database deleted successfully");
+          
+        console.log(event.result); // should be undefined
+      }
+  };
+
+
     /**
    * Fetch all of the items in the datastore.
    * @param {function} callback A function that will be executed once the items

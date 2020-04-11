@@ -5,7 +5,8 @@
     isLoading: true,
     //spinner: document.querySelector('.loader'),
     //container: document.querySelector('.main'),
-    addDialog: document.querySelector('.dialog-container')
+    addDialog: document.querySelector('.dialog-container'),
+    settingsDialog: document.querySelector('.settingsdialog-container')
   };
 
   //Timer management
@@ -123,8 +124,9 @@ function loadExercices(){
   //Open the datastore and refresh exercises when done
   uitDB.open(refreshExercises);
 
-  //Hide add dialog
+  //Hide add and settings dialog
   app.addDialog.setAttribute('hidden', true);
+  app.settingsDialog.setAttribute('hidden', true);
 
   //Initialisation des valeurs
   //loadExercices();
@@ -751,7 +753,7 @@ function loadExercices(){
   
   /*****************************************************************************
    *
-   * Event listeners for UI elements
+   * Event listeners for UI elements - Main page
    *
    ****************************************************************************/
 
@@ -761,12 +763,19 @@ function loadExercices(){
 
   document.getElementById('lstExercices').addEventListener('change', function() {
     lstExercicesChanged();            
-  });
-  
+  });  
+ 
+
+   /*****************************************************************************
+   *
+   * Methods to update/refresh the UI - Add and Edit exercise
+   *
+   ****************************************************************************/
+
   document.getElementById('butAdd').addEventListener('click', function() {
     // Open/show the add new exercise dialog
     app.toggleAddDialog(true);
-  });
+  });  
 
   document.getElementById('linkEditExercise').addEventListener('click', function() {
     isEditInProgress = true;
@@ -774,7 +783,7 @@ function loadExercices(){
     DisplayExerciseDetails();
     //alert("Click!");
   });
-  
+
   document.getElementById('butAddEditExercise').addEventListener('click', function() {
     //alert('test add');
 
@@ -793,8 +802,7 @@ function loadExercices(){
         app.toggleAddDialog(false);
         location.reload();
       }
-    }
-    
+    }    
       
   });
 
@@ -803,6 +811,34 @@ function loadExercices(){
     //alert('test cancel');
     isEditInProgress = false;
     app.toggleAddDialog(false);
+  });
+
+
+ /*****************************************************************************
+   *
+   * Methods to update/refresh the UI - Settings
+   *
+   ****************************************************************************/
+
+  document.getElementById('butSettings').addEventListener('click', function() {
+    // Open/show the add new exercise dialog
+    app.toggleSettingsDialog(true);
+  });
+
+  document.getElementById('butOkSettings').addEventListener('click', function() {
+    // Close the settings dialog
+    app.toggleSettingsDialog(false);
+  });
+
+  document.getElementById('butCancelSettings').addEventListener('click', function() {
+    // Close the settings dialog
+    app.toggleSettingsDialog(false);
+  });
+
+  document.getElementById('linkDeleteDB').addEventListener('click', function() {
+    uitDB.deleteDatastore();
+    //app.toggleSettingsDialog(false);
+    //location.reload();
   });
 
    
@@ -823,6 +859,19 @@ function loadExercices(){
       //app.addDialog.classList.remove('dialog-container--visible');
       //alert('invisible to visible');
       app.addDialog.setAttribute('hidden', true);
+    }
+  };
+
+   // Toggles the visibility 
+   app.toggleSettingsDialog = function(visible) {
+    if (visible) {
+      //app.addDialog.classList.add('dialog-container--visible');
+      //alert('visible to invisible');
+      app.settingsDialog.removeAttribute('hidden');   
+    } else {
+      //app.addDialog.classList.remove('dialog-container--visible');
+      //alert('invisible to visible');
+      app.settingsDialog.setAttribute('hidden', true);
     }
   };
 

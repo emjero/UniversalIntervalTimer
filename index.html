@@ -33,7 +33,9 @@
 <body>
   <div class="header">
     Universal Interval Timer
+    <!--  -->
     <button id="butAdd" class="headerButton" aria-label="Add"></button>
+    <button id="butSettings" class="headerButton" aria-label="Settings"></button>
   </div>
  
   <br/><br/>
@@ -80,7 +82,6 @@
     <div class="dialog">
       <div class="dialog-title">Edit/Create Exercise</div>
       <div class="dialog-body">
-
        
         <label for="inpExerciseName">Exercise name:</label>
         <input type="text" id="inpExerciseName" name="inpExerciseName"><br><br>
@@ -99,6 +100,19 @@
       <div class="dialog-buttons">
         <button id="butAddEditExercise" class="button">Ok</button>
         <button id="butAddCancel" class="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="settingsdialog-container">
+    <div class="dialog">
+      <div class="dialog-title">Settings</div>
+      <div class="dialog-body">
+        <u><label id="linkDeleteDB">Delete exercise DB list?</label></u>
+      </div>
+      <div class="dialog-buttons">
+        <button id="butOkSettings" class="button">Ok</button>
+        <button id="butCancelSettings" class="button">Cancel</button>
       </div>
     </div>
   </div>

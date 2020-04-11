@@ -89,7 +89,7 @@ body {
 .header .headerButton {
     width: 24px;
     height: 24px;
-    margin-right: 16px;
+    margin-left: 16px;
     text-indent: -30000px;
     overflow: hidden;
     opacity: 0.54;
@@ -98,11 +98,10 @@ body {
     border: none;
     outline: none;
     cursor: pointer; }
-    .header #butRefresh {
-        background: url(../images/ic_refresh_white_24px.svg) center center no-repeat; }
+    .header #butSettings {
+        background: url(../images/settings_white_24px.svg) center center no-repeat; }
     .header #butAdd {
         background: url(../images/ic_add_white_24px.svg) center center no-repeat; }
-
 
 /*body{
     text-align: center;
