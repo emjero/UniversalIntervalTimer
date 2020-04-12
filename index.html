@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="styles/mystyle.css">
 
 
-    <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="/manifest.json">
   <!-- Add to home screen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -33,9 +33,11 @@
 <body>
   <div class="header">
     Universal Interval Timer
-    <!--  -->
+    <!--  -->    
     <button id="butAdd" class="headerButton" aria-label="Add"></button>
-    <button id="butSettings" class="headerButton" aria-label="Settings"></button>
+    <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
+    <button id="butSettings" class="headerButton" aria-label="Settings"></button> 
+    
   </div>
  
   <br/><br/>
@@ -108,7 +110,7 @@
     <div class="dialog">
       <div class="dialog-title">Settings</div>
       <div class="dialog-body">
-        <u><label id="linkDeleteDB">Delete exercise DB list?</label></u>
+        <u><label id="linkDeleteDB">Reset exercise list?</label></u>
       </div>
       <div class="dialog-buttons">
         <button id="butOkSettings" class="button">Ok</button>

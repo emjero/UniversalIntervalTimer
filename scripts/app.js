@@ -852,6 +852,9 @@ function loadExercices(){
    *
    ****************************************************************************/
 
+  document.getElementById('butRefresh').addEventListener('click', function() {
+    location.reload();
+  });
 
   // Toggles the visibility 
   app.toggleAddDialog = function(visible) {

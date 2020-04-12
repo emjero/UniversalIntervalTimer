@@ -89,7 +89,7 @@ body {
 .header .headerButton {
     width: 24px;
     height: 24px;
-    margin-left: 16px;
+    margin-left: 10px;
     text-indent: -30000px;
     overflow: hidden;
     opacity: 0.54;
@@ -101,7 +101,9 @@ body {
     .header #butSettings {
         background: url(../images/settings_white_24px.svg) center center no-repeat; }
     .header #butAdd {
-        background: url(../images/ic_add_white_24px.svg) center center no-repeat; }
+        background: url(../images/add_white_24px.svg) center center no-repeat; }
+    .header #butRefresh {
+            background: url(../images/refresh_white_24px.svg) center center no-repeat; }
 
 /*body{
     text-align: center;
