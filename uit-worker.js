@@ -1,33 +1,34 @@
-var cacheName = 'UIT-Cache';
+var cacheName = 'UIT-Cachev3';
 var filesToCache = [
-  //'/',
-  //'/index.html',
-  //'/scripts/app.js',
-  //'/styles/mystyle.css',
-  //'/images/ic_add_white_24px.svg',
-  //'/images/ic_refresh_white_24px.svg',
-  '/assets/BoxingBell1.wav',
-  '/assets/BoxingBell3.wav'
+  './assets/BoxingBell1.wav',
+  './assets/BoxingBell3.wav',
+  './images/add_white_24px.svg',
+  './images/settings_white_24px.svg',
+  './images/refresh_white_24px.svg' 
+  //'./',
+  //'./index.html',
+  //'./scripts/app.js',
+  //'./styles/mystyle.css',   
 ];
-var dataCacheName = 'UIT-Cache';
+var dataCacheName = 'UIT-Cachev3';
 
 self.addEventListener('install', function(e) {
-  console.log('[ServiceWorker] Install');
+  console.log('[UIT Service Worker] Install');
   e.waitUntil(
     caches.open(cacheName).then(function(cache) {
-      console.log('[ServiceWorker] Caching app shell');
+      console.log('[UIT Service Worker] Caching app shell');
       return cache.addAll(filesToCache);
     })
   );
 });
 
 self.addEventListener('activate', function(e) {
-  console.log('[ServiceWorker] Activate');
+  console.log('[UIT Service Worker] Activate');
   e.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
       if (key !== cacheName && key !== dataCacheName) {
-          console.log('[ServiceWorker] Removing old cache', key);
+          console.log('[UIT Service Worker] Removing old cache', key);
           return caches.delete(key);
         }
       }));
@@ -38,7 +39,7 @@ self.addEventListener('activate', function(e) {
 
 
 self.addEventListener('fetch', function(e) {
-    console.log('[Service Worker] Fetch', e.request.url);
+    console.log('[UIT Service Worker] Fetch', e.request.url);
     var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
     if (e.request.url.indexOf(dataUrl) > -1) {
       /*

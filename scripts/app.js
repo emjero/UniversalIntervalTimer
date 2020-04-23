@@ -122,7 +122,10 @@ function loadExercices(){
 }
 
   //Open the datastore and refresh exercises when done
-  uitDB.open(refreshExercises);
+  if(uitDB != null)
+    uitDB.open(refreshExercises);
+  else
+    return;
 
   //Hide add and settings dialog
   app.addDialog.setAttribute('hidden', true);
@@ -209,8 +212,12 @@ function loadExercices(){
   
   function updatePageElements(){
     //document.getElementById('exerciceTitleDiv').querySelector('.titleDiv1').innerHTML = exercice1.nom;
-    document.getElementById('exerciceTitleSpan').innerHTML = selectedExercise.nom;
-    updateNbRoundsSpan();
+    if(selectedExercise != null)
+    {
+      document.getElementById('exerciceTitleSpan').innerHTML = selectedExercise.nom;
+      updateNbRoundsSpan();
+    }
+      
     //alert("test2");
     //var nbRoundsSpan = rounds.querySelector('.nbRounds');
     //nbRoundsSpan.innerHTML = exercice1.nbrounds;
@@ -887,6 +894,9 @@ function loadExercices(){
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
              .register('./uit-worker.js')
-             .then(function() { console.log('UIT Service Worker Registered'); });
+             .then(function(result) { 
+               console.log('UIT Service Worker Registered');
+               console.log('Scope: ' + result.scope);
+              });
   }
 })();
