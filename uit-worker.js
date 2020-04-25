@@ -10,7 +10,6 @@ var filesToCache = [
   //'./scripts/app.js',
   //'./styles/mystyle.css',   
 ];
-var dataCacheName = 'UIT-Cachev3';
 
 self.addEventListener('install', function(e) {
   console.log('[UIT Service Worker] Install');
@@ -39,8 +38,26 @@ self.addEventListener('activate', function(e) {
 
 
 self.addEventListener('fetch', function(e) {
+     /*
+     * The app is asking for app shell files. In this scenario the app uses the
+     * "Cache, falling back to the network" offline strategy:
+     * https://jakearchibald.com/2014/offline-cookbook/#cache-falling-back-to-network
+     */
+  console.log('[UIT Service Worker] Fetch from cache', e.request.url);
+  e.respondWith(      
+      caches.match(e.request).then(function(response) {
+        return response || fetch(e.request);
+      })
+    );    
+});
+
+
+
+/*
+self.addEventListener('fetch', function(e) {
     console.log('[UIT Service Worker] Fetch', e.request.url);
     var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
+  
     if (e.request.url.indexOf(dataUrl) > -1) {
       /*
        * When the request URL contains dataUrl, the app is asking for fresh
@@ -48,7 +65,7 @@ self.addEventListener('fetch', function(e) {
        * network and then caches the response. This is called the "Cache then
        * network" strategy:
        * https://jakearchibald.com/2014/offline-cookbook/#cache-then-network
-       */
+       *//*
       e.respondWith(
         caches.open(dataCacheName).then(function(cache) {
           return fetch(e.request).then(function(response){
@@ -63,10 +80,11 @@ self.addEventListener('fetch', function(e) {
        * "Cache, falling back to the network" offline strategy:
        * https://jakearchibald.com/2014/offline-cookbook/#cache-falling-back-to-network
        */
-      e.respondWith(
+      /*console.log('[UIT Service Worker] Fetch from cache', e.request.url);
+      e.respondWith(      
         caches.match(e.request).then(function(response) {
           return response || fetch(e.request);
         })
       );
     }
-  });
+  });*/

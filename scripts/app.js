@@ -119,13 +119,13 @@ function loadExercices(){
   xmlhttp.open("GET", "./assets/listeExercices.json", false);
   xmlhttp.send();
     
-}
+};
 
   //Open the datastore and refresh exercises when done
   if(uitDB != null)
     uitDB.open(refreshExercises);
   else
-    return;
+    return null;
 
   //Hide add and settings dialog
   app.addDialog.setAttribute('hidden', true);
@@ -779,7 +779,17 @@ function loadExercices(){
    *
    ****************************************************************************/
 
-  document.getElementById('butAdd').addEventListener('click', function() {
+  //document.getElementById('butAdd').addEventListener('click', function() {
+  document.getElementById('linkAddExercise').addEventListener('click', function() {
+       
+    //Remove previous edit values if any
+    document.getElementById("inpExerciseName").value = "";
+    document.getElementById("inpNbRounds").value = "";
+    document.getElementById("inpWarmUp").value = "";
+    document.getElementById("inpWorkTime").value = "";
+    document.getElementById("inpRestTime").value = "";
+    document.getElementById("inpMovmentList").value = "";
+      
     // Open/show the add new exercise dialog
     app.toggleAddDialog(true);
   });  
@@ -790,13 +800,19 @@ function loadExercices(){
     DisplayExerciseDetails();
     //alert("Click!");
   });
-
-  document.getElementById('butAddEditExercise').addEventListener('click', function() {
+  
+  document.getElementById('butAddEditExercise').addEventListener('click', function() {  
     //alert('test add');
+    var selectedExerciseIndex = document.getElementById("lstExercices").selectedIndex;
 
     if(isEditInProgress)
     {
-      SaveEditedExercice();
+      //Do not enable the modification of the default exercise
+      if(selectedExerciseIndex == 0)
+        alert("Default exercise can't be modified");
+      else
+        SaveEditedExercice();
+        
       isEditInProgress = false;
       app.toggleAddDialog(false);
       location.reload();
@@ -890,6 +906,40 @@ function loadExercices(){
   };
 
 
+/**** App installation management   ***** */ 
+var installEvt;
+window.addEventListener('beforeinstallprompt', function(evt){
+    console.log('Before Install Prompt');
+    installEvt = evt;
+    evt.preventDefault();
+    document.getElementById('addToHomeScreen').style.display = 'block';
+});
+
+function hidePrompt(){
+    document.getElementById('addToHomeScreen').style.display = 'none';
+}
+
+document.getElementById('btnAddToHomerScreen').addEventListener('click', function() {
+  installApp();
+});
+
+document.getElementById('lknCancelInstall').addEventListener('click', function() {
+  hidePrompt();
+});
+
+function installApp(){
+    hidePrompt();
+    installEvt.prompt();
+    installEvt.userChoice.then(function(result){
+        if(result.outcome === 'accepted')
+            console.log('App Installed');
+        else
+            console.log('App Not Installed');
+    });
+}
+/********************** */ 
+
+
   // TODO add service worker code here
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
@@ -898,5 +948,8 @@ function loadExercices(){
                console.log('UIT Service Worker Registered');
                console.log('Scope: ' + result.scope);
               });
-  }
-})();
+  };
+
+}
+
+) ();

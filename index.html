@@ -16,7 +16,10 @@
   <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
   <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
   <meta name="msapplication-TileColor" content="#2F3BA2">
-  
+  <meta name="theme-color" content="#ffffff">  
+
+  <script src="scripts/db.js" async></script>
+  <script src="scripts/app.js" async></script>
     
 </head>
 
@@ -34,7 +37,7 @@
   <div class="header">
     Universal Interval Timer
     <!--  -->    
-    <button id="butAdd" class="headerButton" aria-label="Add"></button>
+    <!-- <button id="butAdd" class="headerButton" aria-label="Add"></button> -->
     <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
     <button id="butSettings" class="headerButton" aria-label="Settings"></button> 
     
@@ -46,7 +49,6 @@
   <div class="timerDivStyle0">
     <select id="lstExercices" class="selectStyle"></select>   
   </div>
-
   
   
   <div class="timerDivStyle0">
@@ -73,12 +75,20 @@
     <button id="btnActionTimer" class="btnStyle1">Start</button>
   </div>
   <div class="timerDivStyle0">
-    <u><label id="linkEditExercise">Edit</label></u>     
+    <a href="javascript:void(0)" id="linkAddExercise" style="text-decoration:none;">Add | </a>
+    <a href="javascript:void(0)" id="linkEditExercise" style="text-decoration:none;">Edit</a>
+    <!-- <u><label id="linkEditExercise">Edit</label></u>   -->  
+  </div> 
+
+  <div id="oldDiv" style="display: none;">
+    <section id="addToHomeScreen">
+      <h1>Install App</h1>
+      Add our app to your home screen?<br />
+      <a href="javascript:void(0)" id="lknCancelInstall" style="text-decoration:none;">No, Thanks</a>
+      <button id="btnAddToHomerScreen">Yes, Please!</button>
+  </section>
   </div>
-    
-   
-  <script src="scripts/db.js" async></script>
-  <script src="scripts/app.js" async></script>
+
   
   <div class="dialog-container">
     <div class="dialog">
