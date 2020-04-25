@@ -948,7 +948,7 @@ function installApp(){
                console.log('UIT Service Worker Registered');
                console.log('Scope: ' + result.scope);
 
-               subscribeToPush();               
+               //subscribeToPush();               
 
                /*
                //Notifications configuration
@@ -988,6 +988,7 @@ function installApp(){
     }
   }
 
+  //var vapidPublicKey = "AAAAlqoF2KE:APA91bGob3TYbCW5-i-UG_KOrLmITEZAi2PoSfyUK5S7s9h5lZUogPFKhF0uEyuHWiWu8UE7rWYVc3IVX_rEv-jJbiDz4YKlRZhqCOfg6PNg0R7SYLFnge18-KMP4HvyY1RCnboYzdNe";
   function subscribeToPush(){
     navigator.serviceWorker.ready.then(function(reg){
       reg.pushManager.subscribe({userVisibleOnly:true}).then(function(sub){
@@ -997,6 +998,11 @@ function installApp(){
       });
     });
   }
+
+ 
+
+    return outputArray;
+}
 
 }
 
