@@ -53,6 +53,42 @@ self.addEventListener('fetch', function(e) {
 
 
 
+/*****************************************************************************
+ *
+ * Notifications management
+ *
+ ****************************************************************************/
+
+function closeNotification(msg, evt){
+  console.log(msg, evt.notification.data);
+  evt.notification.close();
+}
+
+self.addEventListener('notificationclose', function(evt){
+  closeNotification('Notification closed', evt);
+});
+
+self.addEventListener('notificationclick', function(evt){
+  console.log('Before Navigating');
+  if(evt.action != 'close'){
+    evt.waitUntil(
+      self.clients.matchAll({type: 'window', includeUncontrolled: 'true'})
+        .then(function(allClients){
+            console.log(allClients);
+            for(var i = 0; i < allClients.length; i++){
+              if(allClients[i].visibilityState == 'visible'){
+                console.log('Navigating');
+                allClients[i].navigate(evt.notification.data.loc);
+                break;
+              }
+            }
+            })
+    );
+  }
+  closeNotification('Notification clicked', evt);
+});
+
+
 /*
 self.addEventListener('fetch', function(e) {
     console.log('[UIT Service Worker] Fetch', e.request.url);

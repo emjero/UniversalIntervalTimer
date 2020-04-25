@@ -947,56 +947,9 @@ function installApp(){
              .then(function(result) { 
                console.log('UIT Service Worker Registered');
                console.log('Scope: ' + result.scope);
-
-               subscribeToPush();               
-
-               /*
-               //Notifications configuration
-               if('Notification' in window){
-                console.log('Notifications supported');
-                Notification.requestPermission(function(status){
-                  console.log('Noftication status ' + status)                  
-                });
-
-                var options = {
-                  body: 'See what\s new',
-                  icon: 'images/icons/icon-192x192.png',
-                  data: {
-                    timestamp: Date.now(),
-                    loc: 'index.html'
-                  },
-                  actions: [
-                    {action: 'go', title: 'Go Now' }
-                  ]
-                };
-                notify('Hello Universal Interval Timer!!', options);
-              }
-              */
-              });
+              
+            });
   };
-
-  /*****************************************************************************
-   *
-   * Notifications management
-   *
-   ****************************************************************************/
-  function notify(title, options){
-    if(Notification.permission == 'granted'){
-      navigator.serviceWorker.ready.then(function(reg){
-        reg.showNotification(title, options);
-      });
-    }
-  }
-
-  function subscribeToPush(){
-    navigator.serviceWorker.ready.then(function(reg){
-      reg.pushManager.subscribe({userVisibleOnly:true}).then(function(sub){
-        console.log(JSON.stringify(sub));
-        console.log("Endpoint: " + sub.endpoint);
-        console.log("User subscribed");
-      });
-    });
-  }
 
 }
 
