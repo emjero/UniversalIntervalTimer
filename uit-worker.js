@@ -1,14 +1,15 @@
-var cacheName = 'UIT-Cachev3';
-var filesToCache = [
+var cacheName = 'UIT-Cachev6';
+var filesToCache = [  
+  './scripts/db.js',
+  //'./scripts/app.js',
+  //'./styles/mystyle.css',
   './assets/BoxingBell1.wav',
   './assets/BoxingBell3.wav',
   './images/add_white_24px.svg',
   './images/settings_white_24px.svg',
-  './images/refresh_white_24px.svg' 
+  './images/refresh_white_24px.svg'      
   //'./',
   //'./index.html',
-  //'./scripts/app.js',
-  //'./styles/mystyle.css',   
 ];
 
 self.addEventListener('install', function(e) {
@@ -75,18 +76,55 @@ self.addEventListener('notificationclick', function(evt){
       self.clients.matchAll({type: 'window', includeUncontrolled: 'true'})
         .then(function(allClients){
             console.log(allClients);
+            var matchingClient = null;
             for(var i = 0; i < allClients.length; i++){
               if(allClients[i].visibilityState == 'visible'){
+                matchingClient = allClients[i];
                 console.log('Navigating');
-                allClients[i].navigate(evt.notification.data.loc);
+                matchingClient.navigate(evt.notification.data.loc);
                 break;
               }
             }
-            })
+            //PWA is not active
+            if(matchingClient == null){
+              console.log('Opening');
+              self.clients.openWindow(evt.notification.data.loc);
+            }
+          })
     );
   }
   closeNotification('Notification clicked', evt);
 });
+
+self.addEventListener('push', function(evt){
+  console.log('Push message received');
+  //retrieve data from message
+  var loc;
+  if(evt.data){
+    console.log('Data Received');
+    console.log(evt.data.text());
+    loc = evt.data.text();
+  }
+  else{
+    loc = 'index.html'
+  }
+  var options = {
+    body: 'See what\s new',
+    icon: 'images/icons/icon-192x192.png',
+    data: {
+      timestamp: Date.now(),
+      loc: loc
+    },
+    actions: [
+      {action: 'go', title: 'Go Now' }
+    ]
+  };
+  evt.waitUntil(
+    self.registration.showNotification('Hello UIT!', options)
+  );
+
+});
+
 
 
 /*

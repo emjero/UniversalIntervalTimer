@@ -789,9 +789,17 @@ function loadExercices(){
     document.getElementById("inpWorkTime").value = "";
     document.getElementById("inpRestTime").value = "";
     document.getElementById("inpMovmentList").value = "";
-      
-    // Open/show the add new exercise dialog
-    app.toggleAddDialog(true);
+
+    var numberOfExercise = exercisesArray.length;
+    if(numberOfExercise < 3){
+      // Open/show the add new exercise dialog
+      app.toggleAddDialog(true);
+    }
+    else{
+      //Limit to 3 exercises to be saved
+      alert("With this version, you can't save more than 3 exercises.");
+    }
+    
   });  
 
   document.getElementById('linkEditExercise').addEventListener('click', function() {
@@ -804,7 +812,7 @@ function loadExercices(){
   document.getElementById('butAddEditExercise').addEventListener('click', function() {  
     //alert('test add');
     var selectedExerciseIndex = document.getElementById("lstExercices").selectedIndex;
-
+        
     if(isEditInProgress)
     {
       //Do not enable the modification of the default exercise
@@ -819,12 +827,11 @@ function loadExercices(){
     }
     else
     {
-      //if exercise creation is sucessfull, close the add screen
       if (AddExercise())
       {
         app.toggleAddDialog(false);
         location.reload();
-      }
+      }      
     }    
       
   });
@@ -948,9 +955,9 @@ function installApp(){
                console.log('UIT Service Worker Registered');
                console.log('Scope: ' + result.scope);
 
-               //subscribeToPush();               
+               //subscribeToPush();             
 
-               /*
+               
                //Notifications configuration
                if('Notification' in window){
                 console.log('Notifications supported');
@@ -958,6 +965,7 @@ function installApp(){
                   console.log('Noftication status ' + status)                  
                 });
 
+                /*
                 var options = {
                   body: 'See what\s new',
                   icon: 'images/icons/icon-192x192.png',
@@ -970,8 +978,10 @@ function installApp(){
                   ]
                 };
                 notify('Hello Universal Interval Timer!!', options);
+                */
+
               }
-              */
+              
               });
   };
 
@@ -988,7 +998,6 @@ function installApp(){
     }
   }
 
-  //var vapidPublicKey = "AAAAlqoF2KE:APA91bGob3TYbCW5-i-UG_KOrLmITEZAi2PoSfyUK5S7s9h5lZUogPFKhF0uEyuHWiWu8UE7rWYVc3IVX_rEv-jJbiDz4YKlRZhqCOfg6PNg0R7SYLFnge18-KMP4HvyY1RCnboYzdNe";
   function subscribeToPush(){
     navigator.serviceWorker.ready.then(function(reg){
       reg.pushManager.subscribe({userVisibleOnly:true}).then(function(sub){
@@ -999,10 +1008,7 @@ function installApp(){
     });
   }
 
- 
-
-    return outputArray;
-}
+   
 
 }
 

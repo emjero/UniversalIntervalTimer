@@ -37,48 +37,118 @@
   <div class="header">
     Universal Interval Timer
     <!--  -->    
-    <!-- <button id="butAdd" class="headerButton" aria-label="Add"></button> -->
+    <!-- <button id="butAdd" class="headerButton" aria-label="Add"></button> -->   
     <button id="butRefresh" class="headerButton" aria-label="Refresh"></button>
     <button id="butSettings" class="headerButton" aria-label="Settings"></button> 
-    
+
   </div>
  
   <br/><br/>
   <div id="divtest" class="timerDivStyle0"></div>
 
-  <div class="timerDivStyle0">
-    <select id="lstExercices" class="selectStyle"></select>   
-  </div>
+  <!-- <div class="app-container"> -->
+    <div class="timerDivStyle0">
+      <select id="lstExercices" class="selectStyle"></select>   
+    </div>
+    
+    
+    <div class="timerDivStyle0">
+      <span id="exerciceTitleSpan" class="titleStyle1"></span>
+    </div>
   
+    <div class="timerDivStyle0">
+        <span id="roundsDisplaySpan" class="titleStyle1"></span>
+    </div>
+    <br/>
+    <div class="timerDivStyle1">
+      <span id="exerciceStateSpan" class="timerSpanStyle1"></span><br/>
+      <span id="timerDisplaySpan" class="timerSpanStyle1">...</span><br/>
+      <span id="movementSpan" class="timerSpanStyle1">...</span>
+    </div>
+    <br/>
+    <div class="timerDivStyle0">
+      <span id="elapsedTimeSpan" class="titleStyle1">Elapsed: 00:00</span><br/>
+      <progress id="progressBar" max="100" value="00" class="progressStyle"></progress><br/>
+      <span id="remainingTimeSpan" class="titleStyle1">Remaining: 00:00</span><br/>
+    </div>
+    <br/>
+    <div class="timerDivStyle0">
+      <button id="btnActionTimer" class="btnStyle1">Start</button>
+    </div>
+    <div class="timerDivStyle0">
+      <a href="javascript:void(0)" id="linkAddExercise" style="text-decoration:none;">Add | </a>
+      <a href="javascript:void(0)" id="linkEditExercise" style="text-decoration:none;">Edit</a>
+      <!-- <u><label id="linkEditExercise">Edit</label></u>   -->  
+    </div>
+  <!-- </div> -->
   
-  <div class="timerDivStyle0">
-    <span id="exerciceTitleSpan" class="titleStyle1"></span>
+  <div class="page-container">
+    <article id="page-faq">
+      <h1>FAQ</h1>
+
+      <p class="subtitle">
+          Q: What is Universal Interval Timer, PWA Edition?
+      </p>
+      <p>
+        Universal Interval Timer is an app enabling you to create your own Interval Training exercises.  </br>
+        You can use it to build your custom HIIT session! Moreover, the application is preset with the famous "7 Min Workout" :) </br>
+      </br>
+        You will be able to define:</br>
+                            - The exercise name </br>
+                            - The number of rounds </br>
+                            - The Warm up time </br>
+                            - The Work time  </br>
+                            - The Rest time </br>
+                            - The movements you want to perform during the exercise. When the app will be running, it will display the movement to execute at the specified round
+                                                
+      </p>
+    
+    <p class="subtitle">
+      Q: How to create a new exercise?
+    </p>
+    <p>
+      From the main page click/tap on the "Add" link 
+    </p>
+  
+    <p class="subtitle">
+      Q: How to edit an exercise?
+    </p>
+    <p>
+      From the main page click/tap on the "Edit" link 
+    </p>
+
+    <p class="subtitle">
+      Q: How many excercises can be saved?
+    </p>
+    <p>
+      With the basic version you can save up to 3 exercises
+    </p>
+
+    <p class="subtitle">
+      Q: How many movements by exercise can be saved?
+    </p>
+    <p>
+      With the basic version you can save up to 40 movements by exercise
+    </p>
+
+    <p class="subtitle">
+      Q: Where are the exercises stored?
+    </p>
+    <p>
+      The exercises that you define are stored locally in your browser. You can reset the exercise list to the default by cliking on the setting button at the top of the page and selecting "Reset exercise list"
+    </p>
+
+    <p class="subtitle">
+      Q: I have comments, suggestions for improvment, where can I send them?
+    </p>
+    <p>
+      You can contact me here: <a href="ailto:emjero@gmail.com?subject=Universal Interval Timer - Feedback">emjero@gmail.com</a>
+    </p>
+    </br></br>
+    </article>
+        
   </div>
- 
-  <div class="timerDivStyle0">
-      <span id="roundsDisplaySpan" class="titleStyle1"></span>
-  </div>
-  <br/>
-  <div class="timerDivStyle1">
-    <span id="exerciceStateSpan" class="timerSpanStyle1"></span><br/>
-    <span id="timerDisplaySpan" class="timerSpanStyle1">...</span><br/>
-    <span id="movementSpan" class="timerSpanStyle1">...</span>
-  </div>
-  <br/>
-  <div class="timerDivStyle0">
-    <span id="elapsedTimeSpan" class="titleStyle1">Elapsed: 00:00</span><br/>
-    <progress id="progressBar" max="100" value="00" class="progressStyle"></progress><br/>
-    <span id="remainingTimeSpan" class="titleStyle1">Remaining: 00:00</span><br/>
-  </div>
-  <br/>
-  <div class="timerDivStyle0">
-    <button id="btnActionTimer" class="btnStyle1">Start</button>
-  </div>
-  <div class="timerDivStyle0">
-    <a href="javascript:void(0)" id="linkAddExercise" style="text-decoration:none;">Add | </a>
-    <a href="javascript:void(0)" id="linkEditExercise" style="text-decoration:none;">Edit</a>
-    <!-- <u><label id="linkEditExercise">Edit</label></u>   -->  
-  </div> 
+
 
   <div id="oldDiv" style="display: none;">
     <section id="addToHomeScreen">
@@ -120,7 +190,7 @@
     <div class="dialog">
       <div class="dialog-title">Settings</div>
       <div class="dialog-body">
-        <u><label id="linkDeleteDB">Reset exercise list?</label></u>
+        <a href="javascript:void(0)" id="linkDeleteDB" style="text-decoration:none;">Reset exercise list?</a>
       </div>
       <div class="dialog-buttons">
         <button id="butOkSettings" class="button">Ok</button>

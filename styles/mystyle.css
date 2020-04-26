@@ -19,7 +19,7 @@ html, body {
     -moz-osx-font-smoothing: grayscale; }
     
 html {
-        overflow: hidden; }
+        overflow: auto; }
       
 body {
     display: -webkit-box;
@@ -217,4 +217,13 @@ pointer-events: auto; }
     padding: 8px !important;
     float: right; }
 
+.subtitle{
+    font-size: 1.1em;
+    font-style: italic;
+    font-weight: bolder;
+}
+
+.page-container{
+    padding-left: 20px;
+}
 
