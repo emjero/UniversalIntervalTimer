@@ -1,4 +1,4 @@
-var cacheName = 'UIT-Cachev6';
+var cacheName = 'UIT-Cachev7';
 var filesToCache = [  
   './scripts/db.js',
   //'./scripts/app.js',

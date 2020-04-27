@@ -927,6 +927,7 @@ function hidePrompt(){
 }
 
 document.getElementById('linkAddToHomeScreen').addEventListener('click', function() {
+  //console.log('App Installed clicked0');
   installApp();
 });
 
@@ -936,6 +937,7 @@ document.getElementById('lknCancelInstall').addEventListener('click', function()
 
 function installApp(){
     //hidePrompt();
+    //console.log('App Installed clicked');
     installEvt.prompt();
     installEvt.userChoice.then(function(result){
         if(result.outcome === 'accepted')
@@ -957,15 +959,15 @@ function installApp(){
 
                //subscribeToPush();             
 
-               
+               /*
                //Notifications configuration
                if('Notification' in window){
                 console.log('Notifications supported');
                 Notification.requestPermission(function(status){
                   console.log('Noftication status ' + status)                  
-                });
+                });        
 
-                /*
+                
                 var options = {
                   body: 'See what\s new',
                   icon: 'images/icons/icon-192x192.png',
@@ -978,9 +980,9 @@ function installApp(){
                   ]
                 };
                 notify('Hello Universal Interval Timer!!', options);
-                */
+                
 
-              }
+              }*/
               
               });
   };
