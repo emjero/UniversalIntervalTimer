@@ -113,7 +113,7 @@ body {
 }*/
 
 h1{
-  color: #4682b4;
+  color: #4682b4;  
   font-weight: 100;
   font-size: 35px;
   margin: 40px 0px 20px;
@@ -123,8 +123,7 @@ span.titleStyle1{
     font-family: sans-serif;
     color: #fff;
     background: rgb(0, 0, 0);
-    display: inline-block;
-    
+    display: inline-block;    
     text-align: center;
     font-size: 30px;
     width: 300px;
@@ -137,12 +136,12 @@ span.timerSpanStyle1{
     display: inline-block; 
     text-align: center;
     font-size: 35px;
-    width: 297px;
+    width: 295px;
     height: 50px;    
 }
 
 .timerDivStyle1{        
-    max-width: 297px;
+    max-width: 295px;
     margin-top: 0px;
     margin-bottom: 0px;
     margin-right: auto;
@@ -157,6 +156,15 @@ span.timerSpanStyle1{
     margin-left: auto;    
 }
 
+.classlinks{        
+    max-width: 300px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: auto;
+    margin-left: auto; 
+    text-align: center;
+}
+
 .progressStyle{    
     width: 300px;    
     border: 1px solid black;
@@ -165,7 +173,7 @@ span.timerSpanStyle1{
 
 .selectStyle{    
     width: 300px;
-    height: 20px;
+    height: 30px;
 }
 
 .btnStyle1{    
@@ -209,6 +217,7 @@ pointer-events: auto; }
 .dialog-body {
     padding-top: 20px;
     padding-bottom: 24px; }
+
 .dialog-body select {
     width: 100%;
     font-size: 2em; }
@@ -217,13 +226,47 @@ pointer-events: auto; }
     padding: 8px !important;
     float: right; }
 
+
+.page-container{
+    padding-left: 5px;
+    margin-right: auto;
+    margin-left: auto;    
+    width: 300px;
+}
+
+
+@media only screen and (min-width: 600px) {
+
+    /* ===============
+        Min Width
+        =============== */
+    
+        .page-container{
+            padding-left: 5px;
+            margin-right: auto;
+            margin-left: auto;    
+            width: 600px;
+        }
+}
+
+
+
+
+
+.title1{
+    color: #0b5a9b;  
+    font-size: 1.8em;
+    margin: 40px 0px 20px;
+    font-weight: bold;
+}
+
 .subtitle{
     font-size: 1.1em;
     font-style: italic;
     font-weight: bolder;
 }
 
-.page-container{
-    padding-left: 20px;
-}
+
+
+
 
