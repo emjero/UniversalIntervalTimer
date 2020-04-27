@@ -919,14 +919,14 @@ window.addEventListener('beforeinstallprompt', function(evt){
     console.log('Before Install Prompt');
     installEvt = evt;
     evt.preventDefault();
-    document.getElementById('addToHomeScreen').style.display = 'block';
+    //document.getElementById('addToHomeScreen').style.display = 'block';
 });
 
 function hidePrompt(){
     document.getElementById('addToHomeScreen').style.display = 'none';
 }
 
-document.getElementById('btnAddToHomerScreen').addEventListener('click', function() {
+document.getElementById('linkAddToHomeScreen').addEventListener('click', function() {
   installApp();
 });
 
@@ -935,7 +935,7 @@ document.getElementById('lknCancelInstall').addEventListener('click', function()
 });
 
 function installApp(){
-    hidePrompt();
+    //hidePrompt();
     installEvt.prompt();
     installEvt.userChoice.then(function(result){
         if(result.outcome === 'accepted')
